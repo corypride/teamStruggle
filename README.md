@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is to easily create, save and share lists of common media: Movies, Books, TV Shows, Songs, Art & More. The project is designed to make it easy for users to beautifully categorize pieces of media they’ve already seen as well as track media they may want to use in the future. There is also a social component to make sharing lists easy and tracking others public lists easily.
+The purpose of this project is to easily create, save and share lists of common media: Movies, Books, TV Shows, Songs, Art & more. The project is designed to make it easy for users to beautifully categorize pieces of media they’ve already seen as well as track media they may want to use in the future. There is also a social component to make sharing lists easy and tracking others public lists easily.
 
 
 ## Getting Started
