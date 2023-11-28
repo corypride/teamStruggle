@@ -34,10 +34,10 @@ command to run if program contains helper info
 
 ## Authors
 
-Nikolai Ptukhin
-Marisa Starkweather
-Ami Patel
-Gabe Breternitz
+* Nikolai Ptukhin
+* Marisa Starkweather
+* Ami Patel
+* Gabe Breternitz
 
 
 ## Version History
