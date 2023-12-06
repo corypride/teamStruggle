@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300">
+    <title>Signup</title>
+</head>
+<body>
+<div class="container"></div>
+<form method="post" th:action="@{/signup}"  th:fragment="signupForm">
+    <fieldset>
+        <legend>Please Sign Up</legend>
+        <div class="form-group">
+            <input type="email" id="email" placeholder="Email Address" />
+            <label for="email">Email Address</label>
+        </div>
+        <div>
+            <input type="password" id="password" placeholder="Password" />
+            <label for="password">Password</label>
+        </div>
+        <div class="form-group">
+            <p>Already have an account? <a href="signin">Sign In</a></p>
+        </div>
+    </fieldset>
+</form>
+</body>
+</html>
