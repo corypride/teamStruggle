@@ -4,11 +4,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@RequestMapping()
 public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -18,8 +20,9 @@ public class DemoApplication {
 		return String.format("Hello %s!", name);
 	}
 
-	@GetMapping("navbar")
-	public String renderNavbar(Model model) {
-		return "navbar";
-	}
+//	@GetMapping("navbar")
+//	public String renderNavbar(Model model) {
+//
+//		return "home/navbar";
+//	}
 }

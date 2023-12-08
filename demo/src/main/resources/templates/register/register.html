@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300">
-    <title>Signup</title>
+    <title>Register</title>
 </head>
 <body>
 <div class="container"></div>
-<form method="post" th:action="@{/signup}"  th:fragment="signupForm">
+<form method="post" th:action="@{/register}"  th:fragment="registerForm">
     <fieldset>
-        <legend>Please Sign Up</legend>
+        <legend>Please Register</legend>
         <div class="form-group">
             <input type="email" id="email" placeholder="Email Address" />
             <label for="email">Email Address</label>
@@ -18,6 +17,16 @@
         <div>
             <input type="password" id="password" placeholder="Password" />
             <label for="password">Password</label>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="rememberMe" /> Remember Me
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="default-btn">Register</button>
         </div>
         <div class="form-group">
             <p>Already have an account? <a href="signin">Sign In</a></p>
