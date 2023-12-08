@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Sign In</title>
+</head>
+<body>
+    <form method="post" th:action="@{/authenticate}" th:fragment="signinForm">
+        <fieldset>
+            <legend>Please Sign In</legend>
+            <div class="form-group">
+                <input type="email" id="existingEmail" placeholder="Email Address" />
+                <label for="existingEmail">Email Address</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="existingPassword" placeholder="Password" />
+                <label for="existingPassword">Password</label>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="rememberMe" /> Remember Me
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="default-btn">Sign in</button>
+            </div>
+            <div class="form-group">
+                <p>Don't have an account? <a href="signup">Sign Up</a></p>
+            </div>
+        </fieldset>
+    </form>
+
+</body>
+</html>
