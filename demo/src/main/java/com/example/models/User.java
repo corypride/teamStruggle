@@ -1,26 +1,32 @@
-//model class representing a user with a username and password
-public class User {
+package main.java.com.example.models;
+
+@Entity
+public class User extends AbstractEntity {
+
+    @NotNull
     private String username;
-    private String password;
+
+    @NotNull
+    private String pwHash;
+
+    public User() {}
 
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.pwHash = encoder.encode(password);
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    // Static method to use the bcrypt dependency for encoding
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    // Instance method to use the bcrypt multi-step matcher (.equals is not enough)
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
+
