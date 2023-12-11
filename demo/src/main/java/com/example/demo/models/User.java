@@ -1,4 +1,4 @@
-package com.example.models;
+package com.example.demo.models;
 
 import java.lang.reflect.Array;
 

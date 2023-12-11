@@ -1,9 +1,9 @@
-package main.java.com.example.models;
+package com.example.demo.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import java.lang.reflect.Array;
+import java.util.List;
 
 @Entity
 public class Movie {
@@ -13,7 +13,7 @@ public class Movie {
 
     private Boolean adult;
     private String backdrop_path;
-    private Array genre_ids;
+    private List<Integer> genre_ids;
     private String original_language;
     private String original_title;
     private String overview;
@@ -26,7 +26,7 @@ public class Movie {
     private Integer vote_count;
 
         //full constructor
-        public Movie(Boolean adult, String backdrop_path, Array genre_ids, int id, String original_language, String original_title, String overview, Double popularity, String poster_path, String release_date, String title, Boolean video, Double vote_average, Integer vote_count) {
+        public Movie(Boolean adult, String backdrop_path, List<Integer> genre_ids, int id, String original_language, String original_title, String overview, Double popularity, String poster_path, String release_date, String title, Boolean video, Double vote_average, Integer vote_count) {
             this.adult = adult;
             this.backdrop_path = backdrop_path;
             this.genre_ids = genre_ids;
@@ -54,11 +54,11 @@ public class Movie {
             this.backdrop_path = backdrop_path;
         }
 
-        public Array getGenre_ids() {
+        public List<Integer> getGenre_ids() {
             return genre_ids;
         }
 
-        public void setGenre_ids(Array genre_ids) {
+        public void setGenre_ids(List<Integer> genre_ids) {
             this.genre_ids = genre_ids;
         }
 

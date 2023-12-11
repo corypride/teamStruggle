@@ -1,6 +1,6 @@
-package com.example.models.data;
+package com.example.demo.models.data;
 
-import com.example.models.User;
+import com.example.demo.models.User;
 
 
 //finding a user by username and saving a user
