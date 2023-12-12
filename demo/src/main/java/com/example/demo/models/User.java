@@ -1,3 +1,7 @@
+package com.example.demo.models;
+
+import java.lang.reflect.Array;
+
 //model class representing a user with a username and password
 public class User {
     private String username;
@@ -23,4 +27,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
