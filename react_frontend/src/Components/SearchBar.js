@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './SearchBar.css';
+import '../Styles/SearchBar.css';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -51,7 +51,7 @@ function SearchBar({data}) {
             <div className="dataResults">
                 {filteredData.slice(0, 10).map((object, index) => {
                     return (
-                    <div className='dataItem' onClick = {() => handleClick(object)}> 
+                    <div className='dataItem' key={index} onClick = {() => handleClick(object)}> 
                         <p>{object.Title}</p> 
                     </div>
                     //div to a when link is present
