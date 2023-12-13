@@ -1,7 +1,19 @@
 package main.java.com.example.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import main.java.com.example.data.UserRepository;
 import main.java.com.example.models.User;
+import main.java.com.example.models.dto.LoginFormDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import java.util.Optional;
 
 @Controller
@@ -43,13 +55,13 @@ public class AuthenticationController {
     // Handlers for registration form
     @GetMapping("/register")
     public String displayRegistrationForm(Model model, HttpSession session) {
-        model.addAttribute(new RegistrationFormDTO());
+        model.addAttribute(new main.java.com.example.models.dto.RegisterFormDTO());
         model.addAttribute("loggedIn", session.getAttribute("user") != null);
         return "register";
     }
 
     @PostMapping("/register")
-    public String processRegistrationForm(@ModelAttribute @Valid RegistrationFormDTO registrationFormDTO,
+    public String processRegistrationForm(@ModelAttribute @Valid main.java.com.example.models.dto.RegisterFormDTO registrationFormDTO,
                                           Errors errors,
                                           HttpServletRequest request) {
 
@@ -80,7 +92,7 @@ public class AuthenticationController {
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 //        TODO: set up redirect to mane page (controller) request mapping
-//        return "redirect:/.......";
+        return "redirect:/login";
     }
 
     // Handlers for login form
@@ -121,7 +133,7 @@ public class AuthenticationController {
         // OTHERWISE, create a new session for the user and take them to the home page
         setUserInSession(request.getSession(), theUser);
 //        TODO: set up redirect to mane page (controller) request mapping
-//        return "redirect:/.....";
+       return "redirect:/login";
     }
 
     // Handler for logout

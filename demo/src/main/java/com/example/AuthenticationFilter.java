@@ -1,8 +1,14 @@
 package main.java.com.example;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import main.java.com.example.controllers.AuthenticationController;
 import main.java.com.example.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerInterceptor;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

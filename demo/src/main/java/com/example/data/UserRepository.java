@@ -3,6 +3,8 @@ package main.java.com.example.data;
 //finding a user by username and saving a user
 
 import main.java.com.example.models.User;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 
 @Repository

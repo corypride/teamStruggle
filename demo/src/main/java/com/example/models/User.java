@@ -1,5 +1,10 @@
 package main.java.com.example.models;
 
+import com.example.models.AbstractEntity;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Entity
 public class User extends AbstractEntity {
 
