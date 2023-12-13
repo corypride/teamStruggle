@@ -2,12 +2,14 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.models.Movie;
+import com.example.demo.models.data.MovieRepository;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +22,20 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 
-@Controller
+@RestController
 public class MovieController {
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     String prepareSearchTermForURI(String searchTerm) {
         return searchTerm.replace(" ","-");
+    }
+
+    @PostMapping("movie")
+    Movie newMovie(@RequestBody Movie newMovie){
+        //used to save a movie down to the database; only save movies that are in watchlists
+        return movieRepository.save(newMovie);
     }
 
     @GetMapping("movie/{id}")
