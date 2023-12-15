@@ -133,7 +133,7 @@ public class AuthenticationController {
         // OTHERWISE, create a new session for the user and take them to the home page
         setUserInSession(request.getSession(), theUser);
 //        TODO: set up redirect to mane page (controller) request mapping
-       return "redirect:/login";
+       return "redirect:/home";
     }
 
     // Handler for logout
