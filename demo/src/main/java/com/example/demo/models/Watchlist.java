@@ -1,10 +1,11 @@
 package com.example.demo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Watchlist {
@@ -15,14 +16,20 @@ public class Watchlist {
 
     private String listType; //Saved, Want to Watch, Currently Watching, Watched, Custom?
     private String name;
-    private List<Movie> moviesInList; //TODO: figure out how to populate this
-    private Integer userID; //TODO: link this to a single user ID
 
-    public Watchlist(String listType, String name, List<Movie> moviesInList, Integer userID) {
+    @ManyToMany
+    private List<Movie> moviesInList = new ArrayList<>(); //TODO: test that this is populating correctly
+
+    @OneToOne
+    @NotNull
+    @Valid
+    private User user; //TODO: test that this relationship is set up correctly
+
+    public Watchlist(String listType, String name, List<Movie> moviesInList, User user) {
         this.listType = listType;
         this.name = name;
         this.moviesInList = moviesInList;
-        this.userID = userID;
+        this.user = user;
     }
 
     public Watchlist() {}
@@ -53,5 +60,13 @@ public class Watchlist {
 
     public void setMoviesInList(List<Movie> moviesInList) {
         this.moviesInList = moviesInList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

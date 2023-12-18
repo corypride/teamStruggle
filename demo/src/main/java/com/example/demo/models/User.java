@@ -1,9 +1,18 @@
 package com.example.demo.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.lang.reflect.Array;
 
+@Entity
 //model class representing a user with a username and password
 public class User {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
     private String username;
     private String password;
 
