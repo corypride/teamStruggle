@@ -1,41 +1,43 @@
-package com.example.demo.models;
+package main.java.com.example.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-
+import com.example.models.AbstractEntity;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.lang.reflect.Array;
 
 @Entity
-//model class representing a user with a username and password
-public class User {
+public class User extends AbstractEntity {
 
     @Id
     @GeneratedValue
     private Integer id;
+  
+    @NotNull
     private String username;
-    private String password;
+
+    @NotNull
+    private String pwHash;
+
+    public User() {}
 
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.pwHash = encoder.encode(password);
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    // Static method to use the bcrypt dependency for encoding
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public String getPassword() {
-        return password;
+    // Instance method to use the bcrypt multi-step matcher (.equals is not enough)
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
 }

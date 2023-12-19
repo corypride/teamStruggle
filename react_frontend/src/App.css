@@ -1,11 +1,11 @@
 .App {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: auto;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  background-image: linear-gradient(90deg, #606060, #D3D3D3);
-  text-align: center;
+  background-image: white;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
