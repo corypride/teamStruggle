@@ -41,17 +41,20 @@
     justify-content: center;
     background-color: #121619;
     height: 50px;
-    width: 180px;
+    width: 150px;
     color: white;
     text-decoration: none;
     font-size: 20px;
     align-items: center;
+    text-align: center; 
+    vertical-align: middle;
+    padding-bottom: 25px;
+    padding-top: 10px;
   }
   
   .headerContainer button:hover {
     background-color: #07090a;
     cursor: pointer;
-    transition: 0.3s ease-in;
   }
   
   @media only screen and (max-width: 650px) {

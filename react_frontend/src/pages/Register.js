@@ -13,6 +13,11 @@ function Register() {
     }
 
   return (
+    /* id = HTML elements 
+    Name identifies the html tag when the data is sent when the form is submitted.
+    Name is identifier for Value and value is the actual value
+    Value is the real value of the html tag. 
+    ie name="username" value="john"*/
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
