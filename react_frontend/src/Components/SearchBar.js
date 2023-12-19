@@ -8,6 +8,7 @@ function SearchBar({data}) {
     const [wordEntered, setWordEntered] = useState("");
 
     const handleFilter = (event) => {
+        /* event.target.value = value of input field */
         const searchWord = event.target.value;
         setWordEntered(searchWord);
         const newFilter = data.filter((value) => {
@@ -49,9 +50,9 @@ function SearchBar({data}) {
             </div>
             {filteredData.length !== 0 && (
             <div className="dataResults">
-                {filteredData.slice(0, 10).map((object, index) => {
+                {filteredData.map((object) => {
                     return (
-                    <div className='dataItem' key={index} onClick = {() => handleClick(object)}> 
+                    <div className='dataItem' onClick = {() => handleClick(object)}> 
                         <p>{object.Title}</p> 
                     </div>
                     //div to a when link is present

@@ -32,7 +32,9 @@ function Navbar() {
             <ReorderIcon />
           </button>
         </div>
+        <span>
         <SearchBar data={MovieData}/>
+        </span>
     </div>
   )
 }
