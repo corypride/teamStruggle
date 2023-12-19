@@ -1,13 +1,20 @@
 package main.java.com.example.models;
 
-import com.example.models.AbstractEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import com.example.models.AbstractEntity;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.lang.reflect.Array;
 
 @Entity
 public class User extends AbstractEntity {
 
+    @Id
+    @GeneratedValue
+    private Integer id;
+  
     @NotNull
     private String username;
 

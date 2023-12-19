@@ -2,7 +2,9 @@ package com.example.demo.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,6 +12,8 @@ public class Movie {
 
     @Id
     private int id;
+    @ManyToMany(mappedBy = "moviesInList")
+    private final List<Watchlist> watchlists = new ArrayList<>();
 
     private Boolean adult;
     private String backdrop_path;
