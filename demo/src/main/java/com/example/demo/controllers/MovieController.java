@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 public class MovieController {
 
     @Autowired
