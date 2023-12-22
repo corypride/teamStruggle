@@ -1,14 +1,12 @@
 import './App.css';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import SearchBar from './Components/SearchBar';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
+import Login from "./pages/Login"
+import Register from './pages/Register';
+import Search from './pages/Search';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
-import Home from './Pages/Home';
-import axios from 'axios';
-import MovieData from './Data.json';
+import Home from './pages/home';
 import React, {useState} from "react";
 
 
@@ -23,6 +21,7 @@ function App() {
           <Route path="/" exact Component={Home}/>
           <Route path="/login" exact Component={Login}/>
           <Route path="/register" exact Component={Register}/>
+          <Route path="/search" exact Component={Search}/>
         </Routes>
         <Footer />
       </Router>

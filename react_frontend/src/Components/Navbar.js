@@ -3,8 +3,7 @@ import Logo from '../Media/filmlogo.jpeg';
 import {Link} from 'react-router-dom';
 import "../Styles/Navbar.css";
 import ReorderIcon from '@mui/icons-material/Reorder';
-import SearchBar from './SearchBar.js';
-import MovieData from '../Data.json';
+
 
 
 function Navbar() {
@@ -22,19 +21,18 @@ function Navbar() {
               <Link to='/'> Home </Link>
               <Link to='/login'> Login </Link>
               <Link to='/register'> Register </Link>
+              <Link to='/search'> Search </Link>
             </div>
         </div>
         <div className='rightSide'>
           <Link to='/'> Home </Link>
           <Link to='/login'> Login </Link>
           <Link to='/register'> Register </Link>
+          <Link to='/search'> Search </Link>
           <button onClick={toggleNavbar}>
             <ReorderIcon />
           </button>
         </div>
-        <span>
-        <SearchBar data={MovieData}/>
-        </span>
     </div>
   )
 }
