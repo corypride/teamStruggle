@@ -1,4 +1,4 @@
-package main.java.com.example.models.dto;
+package com.example.models.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

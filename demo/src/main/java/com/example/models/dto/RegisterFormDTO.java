@@ -1,10 +1,10 @@
-package main.java.com.example.models.dto;
+package com.example.models.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class RegisterFormDTO extends main.java.com.example.models.dto.LoginFormDTO {
+public class RegisterFormDTO extends LoginFormDTO {
 
     @NotNull(message = "Password is required")
     @NotBlank(message = "Password is required")
