@@ -1,8 +1,8 @@
-package com.example.demo.controllers;
+package com.example.controllers;
 
 
-import com.example.demo.models.Movie;
-import com.example.demo.models.data.MovieRepository;
+import com.example.models.Movie;
+import com.example.models.data.MovieRepository;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

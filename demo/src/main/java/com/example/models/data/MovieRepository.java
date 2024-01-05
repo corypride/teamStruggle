@@ -1,6 +1,6 @@
-package com.example.demo.models.data;
+package com.example.models.data;
 
-import com.example.demo.models.Movie;
+import com.example.models.Movie;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
