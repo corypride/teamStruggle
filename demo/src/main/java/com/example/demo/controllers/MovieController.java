@@ -19,7 +19,7 @@ import java.net.http.HttpResponse;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 
-
+@CrossOrigin(origins = "*")
 @Controller
 public class MovieController {
 
