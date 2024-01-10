@@ -1,9 +1,8 @@
 package com.example.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import com.example.models.AbstractEntity;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.lang.reflect.Array;
@@ -21,7 +20,19 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @Valid
+    private UserDetails userDetails;
+
     public User() {}
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     public User(String username, String password) {
         this.username = username;

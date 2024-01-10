@@ -20,16 +20,16 @@ public class Watchlist {
     @ManyToMany
     private List<Movie> moviesInList = new ArrayList<>(); //TODO: test that this is populating correctly
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     @Valid
-    private User user; //TODO: test that this relationship is set up correctly
+    private UserDetails userDetails;
 
-    public Watchlist(String listType, String name, List<Movie> moviesInList, User user) {
+    public Watchlist(String listType, String name, List<Movie> moviesInList, UserDetails userDetails) {
         this.listType = listType;
         this.name = name;
         this.moviesInList = moviesInList;
-        this.user = user;
+        this.userDetails = userDetails;
     }
 
     public Watchlist() {}
@@ -62,11 +62,11 @@ public class Watchlist {
         this.moviesInList = moviesInList;
     }
 
-    public User getUser() {
-        return user;
+    public UserDetails getUserDetails() {
+        return userDetails;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 }
