@@ -25,6 +25,10 @@ public class Watchlist {
     @Valid
     private UserDetails userDetails;
 
+    public void addMovieToWatchlist(Movie movie) {
+        moviesInList.add(movie);
+    }
+
     public Watchlist(String listType, String name, List<Movie> moviesInList, UserDetails userDetails) {
         this.listType = listType;
         this.name = name;
