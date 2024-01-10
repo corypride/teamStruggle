@@ -2,6 +2,7 @@ package com.example.controllers;
 
 
 import com.example.models.Movie;
+import com.example.models.Watchlist;
 import com.example.models.data.MovieRepository;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -10,6 +11,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +36,12 @@ public class MovieController {
     }
 
     @PostMapping("movie")
-    Movie newMovie(@RequestBody Movie newMovie){
-        //used to save a movie down to the database; only save movies that are in watchlists
-        return movieRepository.save(newMovie);
+    ResponseEntity<Movie> newMovie(@RequestBody Movie newMovie){
+        //this is used to save a movie down to the database; only save movies that are in watchlists
+        if(movieRepository.findById(newMovie.getId()).isEmpty()){
+            movieRepository.save(newMovie);
+        }
+        return ResponseEntity.ok(newMovie);
     }
 
     @GetMapping("movie/{id}")
