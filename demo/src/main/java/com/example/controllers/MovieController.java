@@ -38,8 +38,6 @@ public class MovieController {
     @PostMapping("movie")
     ResponseEntity<Movie> newMovie(@RequestBody Movie newMovie){
         //this is used to save a movie down to the database; only save movies that are in watchlists
-        //TODO: update this logic to only save if the movie doesn't exist
-        // this may not work -- could need to use a try catch?
         if(movieRepository.findById(newMovie.getId()).isEmpty()){
             movieRepository.save(newMovie);
         }
