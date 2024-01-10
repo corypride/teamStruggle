@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.models.Movie;
 import com.example.models.Watchlist;
+import com.example.models.data.MovieRepository;
 import com.example.models.data.WatchlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class WatchlistController {
 
     @Autowired
     WatchlistRepository watchlistRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
 
     @GetMapping("watchlist")
     public Watchlist getWatchlist(Integer id){
@@ -35,7 +39,7 @@ public class WatchlistController {
         return watchlistRepository.save(newWatchlist);
     }
 
-    // updates all the data in a watchlist based on data passed in through Put request
+    // this updates all the data in a watchlist based on data passed in through Put request
     @PutMapping("watchlist/{id}")
     public ResponseEntity<Watchlist> updateWatchlist(@PathVariable Integer id, @RequestBody Watchlist watchlistDetails) {
         Watchlist updateWatchlist = watchlistRepository.findById(id)
@@ -48,6 +52,21 @@ public class WatchlistController {
         updateWatchlist.setMoviesInList(watchlistDetails.getMoviesInList());
         updateWatchlist.setUserDetails(watchlistDetails.getUserDetails());
 
+        watchlistRepository.save(updateWatchlist);
+
+        return ResponseEntity.ok(updateWatchlist);
+    }
+
+    //this adds a single movie to a watchlist with the id in the path by id using a request parameter
+    @PutMapping("watchlist/{id}")
+    public ResponseEntity<Watchlist> addNewMovieToWatchlist(@PathVariable Integer watchlistId, @RequestParam Integer movieId) {
+        Watchlist updateWatchlist = watchlistRepository.findById(watchlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + watchlistId));
+
+        Movie movieToAdd = movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResourceNotFoundException("No movie with given id: " + movieId));
+
+        updateWatchlist.addMovieToWatchlist(movieToAdd);
         watchlistRepository.save(updateWatchlist);
 
         return ResponseEntity.ok(updateWatchlist);
