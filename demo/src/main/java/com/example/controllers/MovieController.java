@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 public class MovieController {
 
@@ -88,4 +89,5 @@ public class MovieController {
 
         return pathMovies;
         }
+
     }
