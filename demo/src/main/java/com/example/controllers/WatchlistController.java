@@ -57,7 +57,7 @@ public class WatchlistController {
         return ResponseEntity.ok(updateWatchlist);
     }
 
-    //this adds a single movie to a watchlist with the id in the path by id using a request parameter
+    //this adds a single movie to a watchlist with the id in the path by id using a request parameter TODO: test it
     @PutMapping("watchlist/{id}")
     public ResponseEntity<Watchlist> addNewMovieToWatchlist(@PathVariable Integer watchlistId, @RequestParam Integer movieId) {
         Watchlist updateWatchlist = watchlistRepository.findById(watchlistId)
