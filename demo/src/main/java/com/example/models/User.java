@@ -20,7 +20,7 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
     @Valid
     private UserDetails userDetails;
 
