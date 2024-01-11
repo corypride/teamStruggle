@@ -21,8 +21,7 @@ public class Watchlist {
     private List<Movie> moviesInList = new ArrayList<>(); //TODO: test that this is populating correctly
 
     @ManyToOne
-    @NotNull
-    @Valid
+    @JoinColumn(name = "user_details_id", nullable = false)
     private UserDetails userDetails;
 
     public void addMovieToWatchlist(Movie movie) {

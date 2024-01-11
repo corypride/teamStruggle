@@ -22,21 +22,21 @@ public class WatchlistController {
     @Autowired
     MovieRepository movieRepository;
 
-    @GetMapping("watchlist")
-    public Watchlist getWatchlist(Integer id){
-        Optional<Watchlist> o = watchlistRepository.findById(id);
-        if(o.isPresent()) {
-            return o.get();
-        } else {
-            return null; //TODO: make this return an error if not found
+    @GetMapping("watchlist/{id}")
+    @ResponseBody
+    public Watchlist getWatchlist(@PathVariable Integer id) {
+        Watchlist watchlistToReturn = watchlistRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + id));
+        return watchlistToReturn;
         }
-    }
+
 
     //TODO: make a getAllUserWatchlists method
 
     @PostMapping("watchlist")
-    public Watchlist saveNewWatchlist(@RequestBody Watchlist newWatchlist){
-        return watchlistRepository.save(newWatchlist);
+    public ResponseEntity<Watchlist> saveNewWatchlist(@RequestBody Watchlist newWatchlist){
+        watchlistRepository.save(newWatchlist);
+        return ResponseEntity.ok(newWatchlist);
     }
 
     // this updates all the data in a watchlist based on data passed in through Put request
@@ -54,12 +54,12 @@ public class WatchlistController {
 
         watchlistRepository.save(updateWatchlist);
 
-        return ResponseEntity.ok(updateWatchlist);
+        return ResponseEntity.ok(watchlistDetails);
     }
 
     //this adds a single movie to a watchlist with the Watchlistid in the path first and then the movie ID TODO: test it
     @PutMapping("watchlist/{watchlistId}/{movieId}")
-    public ResponseEntity<Watchlist> addNewMovieToWatchlist(@PathVariable Integer watchlistId, @RequestParam Integer movieId) {
+    public ResponseEntity<String> addNewMovieToWatchlist(@PathVariable Integer watchlistId, @PathVariable Integer movieId) {
         Watchlist updateWatchlist = watchlistRepository.findById(watchlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + watchlistId));
 
@@ -69,7 +69,7 @@ public class WatchlistController {
         updateWatchlist.addMovieToWatchlist(movieToAdd);
         watchlistRepository.save(updateWatchlist);
 
-        return ResponseEntity.ok(updateWatchlist);
+        return ResponseEntity.ok("Watchlist updated successfully!");
     }
 
     @DeleteMapping("watchlist/{id}")
