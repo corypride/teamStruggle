@@ -1,14 +1,20 @@
 import React, {useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import Button from '@mui/material/Button';
 
-
+//currently prints selected movie title to console when "add to watchlist 
+//button" is clicked. will add info to database
 
 
 function Search() {
     const [searchTerm, setSearchTerm] = useState(""); 
     let [results, setResults] = useState([]);
     let movies;
+
+    const handleClick = (aMovie) => {
+        console.log(`Added ${aMovie.title} to watchlist!`);
+    }
 
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
@@ -32,38 +38,17 @@ function Search() {
                         <p>
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
+                        <p>
+                            <Button onClick={() => handleClick(movie)} variant='contained'>Add to Watchlist</Button>
+                        </p>
                     </div>
                 )
             }));
         }
-        //console.log(results);
     }
-
-    console.log(`results is now: ${results}`);
     
 
     return (
-        // This works ok below and prints hey in handleSearch
-        // <div>
-        //     <button onClick={handleSearch}>
-        //         <SearchIcon className='searchIcon'/>
-        //     </button>
-        // </div>
-
-        // This also works the same
-            // <div className='search-container'>
-            //     <div className='input-button-container'>
-            //         <input
-            //             type='text'
-            //             placeholder='Search for a movie'
-            //             value={searchTerm}
-            //             onChange={(e) => setSearchTerm(e.target.value)}
-            //         />
-            //         <button onClick={handleSearch}>
-            //             <SearchIcon className='searchIcon'/>
-            //         </button>
-            //     </div>
-            // </div>
 
         <div id="parent">
             <div className='search-container'>
@@ -75,7 +60,7 @@ function Search() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <button onClick={handleSearch}>
-                        <SearchIcon className='searchIcon'/>
+                        <SearchIcon/>
                     </button>
                 </div>
             </div>

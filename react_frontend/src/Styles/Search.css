@@ -24,7 +24,7 @@ body{
     flex-direction: row;
 }
 
-button{
+.input-button-container button{
     background-color: white;
     border-radius: 6px;
     border: 0;
