@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import CinemaBackground from '../Media/cinema.jpeg';
+import Background from '../Media/blue.jpeg';
 import '../Styles/Home.css';
 
 function Home() {
   return (
-    <div className='home' style={{ backgroundImage: `url(${CinemaBackground})` }}>
+    <div className='home' style={{ backgroundImage: `url(${Background})` }}>
       <div className='headerContainer'>
         <h1>binder</h1>
         <br></br>
