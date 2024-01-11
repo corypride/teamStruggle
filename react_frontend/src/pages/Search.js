@@ -1,14 +1,20 @@
 import React, {useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import Button from '@mui/material/Button';
 
-
+//currently prints selected movie title to console when "add to watchlist 
+//button" is clicked. will add info to database
 
 
 function Search() {
     const [searchTerm, setSearchTerm] = useState(""); 
     let [results, setResults] = useState([]);
     let movies;
+
+    const handleClick = (aMovie) => {
+        console.log(`Added ${aMovie.title} to watchlist!`);
+    }
 
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
@@ -32,6 +38,9 @@ function Search() {
                         <p>
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
+                        <p>
+                            <Button onClick={() => handleClick(movie)} variant='contained'>Add to Watchlist</Button>
+                        </p>
                     </div>
                 )
             }));
@@ -51,7 +60,7 @@ function Search() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <button onClick={handleSearch}>
-                        <SearchIcon className='searchIcon'/>
+                        <SearchIcon/>
                     </button>
                 </div>
             </div>
