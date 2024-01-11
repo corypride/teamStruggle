@@ -36,34 +36,10 @@ function Search() {
                 )
             }));
         }
-        //console.log(results);
     }
-
-    console.log(`results is now: ${results}`);
     
 
     return (
-        // This works ok below and prints hey in handleSearch
-        // <div>
-        //     <button onClick={handleSearch}>
-        //         <SearchIcon className='searchIcon'/>
-        //     </button>
-        // </div>
-
-        // This also works the same
-            // <div className='search-container'>
-            //     <div className='input-button-container'>
-            //         <input
-            //             type='text'
-            //             placeholder='Search for a movie'
-            //             value={searchTerm}
-            //             onChange={(e) => setSearchTerm(e.target.value)}
-            //         />
-            //         <button onClick={handleSearch}>
-            //             <SearchIcon className='searchIcon'/>
-            //         </button>
-            //     </div>
-            // </div>
 
         <div id="parent">
             <div className='search-container'>
