@@ -1,15 +1,28 @@
 import React, {useState} from 'react'
 import '../Styles/Register.css';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // const [name, setName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
 
+    let navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const [user, setUser] = useState({
+      name: "",
+      username: "",
+      password: "",
+    });
+
+    const {name, username, password} = user;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(name, email, password);
+        await axios.post("http://localhost:8080/register", user);
+        navigate("/home");
+        // console.log(name, email, password);
     }
 
   return (
