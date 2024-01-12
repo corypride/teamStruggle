@@ -9,7 +9,7 @@ import java.lang.reflect.Array;
 
 @Entity
 public class User extends AbstractEntity {
-  
+
     @NotNull
     private String username;
 
