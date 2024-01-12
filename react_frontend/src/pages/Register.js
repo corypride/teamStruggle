@@ -22,7 +22,19 @@ function Register() {
         e.preventDefault();
         await axios.post("http://localhost:8080/register", user);
         navigate("/home");
-        // console.log(name, email, password);
+    }
+
+    /*  
+    e is short for event that is happening (change). 
+    target is element that triggered the event (input/typing)
+    value is value of input from user
+    
+    below sets name to value user entered. spread operator
+    applies that to all parameters in user
+    */
+
+    const onInputChange = (e) => {
+      setUser({...user, [e.target.name] : e.target.value});
     }
 
   return (
@@ -34,11 +46,11 @@ function Register() {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(event) => setName(event.target.value)} name='name' id='name' placeholder='Full Name' />
-            <label htmlFor='email'>Email</label>
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='Enter email' id='email' name='email'/>
+            <input value={name} onChange={(e) => onInputChange(e)} name='name' id='name' placeholder='Full Name' />
+            <label htmlFor='username'>Username</label>
+            <input value={username} onChange={(e) => onInputChange(e)} type='username' placeholder='Enter username' id='username' name='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='Enter password' id='password' name='password'/>
+            <input value={password} onChange={(e) => onInputChange(e)} type='password' placeholder='Enter password' id='password' name='password'/>
             <button>Login</button>
         </form> 
     </div>
