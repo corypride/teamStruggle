@@ -4,9 +4,6 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    // const [name, setName] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
 
     let navigate = useNavigate();
 
@@ -33,7 +30,7 @@ function Register() {
     applies that to all parameters in user
     */
 
-    const onInputChange = (e) => {
+    const handleNewUser = (e) => {
       setUser({...user, [e.target.name] : e.target.value});
     }
 
@@ -46,12 +43,12 @@ function Register() {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(e) => onInputChange(e)} name='name' id='name' placeholder='Full Name' />
+            <input value={name} onChange={(e) => handleNewUser(e)} name='name' id='name' placeholder='Full Name' />
             <label htmlFor='username'>Username</label>
-            <input value={username} onChange={(e) => onInputChange(e)} type='username' placeholder='Enter username' id='username' name='username'/>
+            <input value={username} onChange={(e) => handleNewUser(e)} type='username' placeholder='Enter username' id='username' name='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(e) => onInputChange(e)} type='password' placeholder='Enter password' id='password' name='password'/>
-            <button>Login</button>
+            <input value={password} onChange={(e) => handleNewUser(e)} type='password' placeholder='Enter password' id='password' name='password'/>
+            <button>Register</button>
         </form> 
     </div>
   )
