@@ -9,10 +9,6 @@ import java.lang.reflect.Array;
 
 @Entity
 public class User extends AbstractEntity {
-
-    @Id
-    @GeneratedValue
-    private Integer id;
   
     @NotNull
     private String username;
