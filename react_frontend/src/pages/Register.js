@@ -48,11 +48,11 @@ function Register() {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(e) => handleNewUser(e)} placeholder='Full Name' name='name'/>
+            <input value={name} onChange={(e) => handleNewUser(e)} placeholder='Full Name' name='name' type='text' id='name'/>
             <label htmlFor='username'>Username</label>
-            <input value={username} onChange={(e) => handleNewUser(e)} placeholder='Enter username' name='username'/>
+            <input value={username} onChange={(e) => handleNewUser(e)} placeholder='Enter username' name='username' type='username' id='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(e) => handleNewUser(e)} placeholder='Enter password' name='password'/>
+            <input value={password} onChange={(e) => handleNewUser(e)} placeholder='Enter password' name='password' type='password' id='password'/>
             <button>Register</button>
             {/* <Link to="/profile" state={email}>
               <button onClick={handleSubmit}>Register</button>
