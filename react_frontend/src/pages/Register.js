@@ -1,15 +1,42 @@
 import React, {useState} from 'react'
 import '../Styles/Register.css';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import {user} from "../user";
 
 function Register() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
+    let navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const [currentUser, setCurrentUser] = useState(user);
+
+    /* This is the same as doing:
+    // let name = user.name;
+    // let username = user.username;
+    let password = user.password; */
+    const {name, username, password} = currentUser;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(name, email, password);
+        // await axios.post("http://localhost:8080/register", user);
+        // navigate("/");
+        user.name = currentUser.name;
+        user.username = currentUser.username;
+        user.password = currentUser.password
+        console.log(user);
+    }
+
+    /*  
+    e is short for event that is happening (change). 
+    target is element that triggered the event (input/typing)
+    value is value of input from user
+    
+    below sets name to value user entered. spread operator
+    applies that to all parameters in user
+    */
+
+    const handleNewUser = (e) => {
+      setCurrentUser({...currentUser, [e.target.name] : e.target.value});
     }
 
   return (
@@ -21,12 +48,15 @@ function Register() {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(event) => setName(event.target.value)} name='name' id='name' placeholder='Full Name' />
-            <label htmlFor='email'>Email</label>
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='Enter email' id='email' name='email'/>
+            <input value={name} onChange={(e) => handleNewUser(e)} placeholder='Full Name' name='name' type='text' id='name'/>
+            <label htmlFor='username'>Username</label>
+            <input value={username} onChange={(e) => handleNewUser(e)} placeholder='Enter username' name='username' type='username' id='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='Enter password' id='password' name='password'/>
-            <button>Login</button>
+            <input value={password} onChange={(e) => handleNewUser(e)} placeholder='Enter password' name='password' type='password' id='password'/>
+            <button>Register</button>
+            {/* <Link to="/profile" state={email}>
+              <button onClick={handleSubmit}>Register</button>
+            </Link> */}
         </form> 
     </div>
   )
