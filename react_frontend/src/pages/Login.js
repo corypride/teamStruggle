@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import '../Styles/Login.css';
+import {Link} from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -18,6 +19,9 @@ function Login() {
                 <label htmlFor='password'>Password</label>
                 <input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='Enter password' id='password' name='password'/>
                 <button>Login</button>
+                {/* <Link to="/profile">
+                    <button>Login</button>
+                </Link> */}
             </form> 
         </div>
     )

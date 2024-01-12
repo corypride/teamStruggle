@@ -2,23 +2,28 @@ import React, {useState} from 'react'
 import '../Styles/Register.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {user} from "../user";
 
 function Register() {
 
     let navigate = useNavigate();
 
-    const [user, setUser] = useState({
-      name: "",
-      username: "",
-      password: "",
-    });
+    const [currentUser, setCurrentUser] = useState(user);
 
-    const {name, username, password} = user;
+    /* This is the same as doing:
+    // let name = user.name;
+    // let username = user.username;
+    let password = user.password; */
+    const {name, username, password} = currentUser;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:8080/register", user);
-        navigate("/home");
+        // await axios.post("http://localhost:8080/register", user);
+        // navigate("/");
+        user.name = currentUser.name;
+        user.username = currentUser.username;
+        user.password = currentUser.password
+        console.log(user);
     }
 
     /*  
@@ -31,7 +36,7 @@ function Register() {
     */
 
     const handleNewUser = (e) => {
-      setUser({...user, [e.target.name] : e.target.value});
+      setCurrentUser({...currentUser, [e.target.name] : e.target.value});
     }
 
   return (
@@ -43,12 +48,15 @@ function Register() {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(e) => handleNewUser(e)} name='name' id='name' placeholder='Full Name' />
+            <input value={name} onChange={(e) => handleNewUser(e)} name='name' placeholder='Full Name' />
             <label htmlFor='username'>Username</label>
-            <input value={username} onChange={(e) => handleNewUser(e)} type='username' placeholder='Enter username' id='username' name='username'/>
+            <input value={username} onChange={(e) => handleNewUser(e)} type='username' placeholder='Enter username' name='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(e) => handleNewUser(e)} type='password' placeholder='Enter password' id='password' name='password'/>
+            <input value={password} onChange={(e) => handleNewUser(e)} type='password' placeholder='Enter password' name='password'/>
             <button>Register</button>
+            {/* <Link to="/profile" state={email}>
+              <button onClick={handleSubmit}>Register</button>
+            </Link> */}
         </form> 
     </div>
   )
