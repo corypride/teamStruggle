@@ -6,12 +6,12 @@ import { useLocation } from 'react-router-dom';
 
 function Profile() {
 
-    const email = useLocation().state;
-    console.log(email);
+    const username = useLocation().state;
+    console.log(username);
 
     return (
         <div className='profile'>
-            <h1>{user[email].name}</h1>
+            <h1>{user.username}</h1>
             {/* pull full name from database*/}
             <img src={Anon} className='anon' />
         </div>
