@@ -1,19 +1,21 @@
 import React from 'react'
+import Anon from '../Media/anon.jpeg';
 import "../Styles/Profile.css";
-//import {users} from '../users';
-import Avatar from '@mui/material/Avatar';
+import {user} from '../user';
 import { useLocation } from 'react-router-dom';
 
 function Profile() {
-    const email = useLocation().state;
-    console.log(email);
-  return (
-    <div className='profile'>
-        {/* pull full name from database*/}
-        <Avatar alt="user profile pic" src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-        <img alt=" user profile pic big" src="https://xsgames.co/randomusers/avatar.php?g=pixel" className='anon' />
-    </div>
-  )
+
+    const username = useLocation().state;
+    console.log(username);
+
+    return (
+        <div className='profile'>
+            <h1>{user.username}</h1>
+            {/* pull full name from database*/}
+            <img src={Anon} className='anon' />
+        </div>
+    )
 }
 
-export default Profile;
+export default Profile
