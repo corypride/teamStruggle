@@ -13,7 +13,6 @@ export const MovieCard = ({ movie }) => {
                     <div></div>
                 )}
             </div>
-
             <div>
                 <h3>{movie.title}</h3>
             </div>
