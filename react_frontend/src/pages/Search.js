@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
+import {user} from "../user";
 
 //currently prints selected movie title to console when "add to watchlist 
 //button" is clicked. will add info to database
@@ -19,6 +20,7 @@ function Search() {
         //TODO: add movie to the specific watchlist selected
         //--maybe this could be done by when you hover over the add to watchlist button, it shows you options?
         console.log(`Added ${aMovie.title} to watchlist!`);
+
     }
 
     const handleSearch = async () => {
