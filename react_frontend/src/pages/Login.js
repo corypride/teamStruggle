@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-function Login({user, onUserUpdate}) {
+function Login({onUserUpdate}) {
 
+    //newUser represents current form fields. handleUser updates newUser. handleSubmit sets global user via onUserUpdate
     const [newUser, setNewUser] = useState({
         username: "",
         password: "",
@@ -18,6 +19,7 @@ function Login({user, onUserUpdate}) {
         setNewUser({...newUser, [e.target.name] : e.target.value});
     }
 
+    //TODO: only call onUserUpdate once backend authenticates user
     const handleSubmit = async(e) => {
         e.preventDefault();
         onUserUpdate(newUser);
