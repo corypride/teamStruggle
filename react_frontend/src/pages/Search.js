@@ -3,8 +3,38 @@ import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
-//currently prints selected movie title to console when "add to watchlist 
-//button" is clicked. will add info to database
+
+// fake watchlists until connected to backend
+//
+// DONE: make buttons via mapping (using watchlist name to populate
+// button info, and on click display the name and id of the clicked button)
+// https://mui.com/material-ui/react-button-group/#split-button (good example of dropdown)
+//
+// TODO: after that works, use the backend to get the watchlists,
+// and test adding with the button via a post onClick
+//
+// TODO: after that, check to see if this movie
+// is already in the watchlist and instead say remove from watchlist (and call)
+// the appropriate API with the id and movie etc
+//
+let watchlists = [
+    {
+        id: 0,
+        name: "Watched"
+    },
+    {
+        id: 1,
+        name: "General Watchlist"
+    },
+    {
+        id: 2,
+        name: "Custom user watchlist1"
+    },
+    {
+        id: 3,
+        name: "Custom user watchlist2"
+    }
+]
 
 
 function Search({user}) {
@@ -12,14 +42,13 @@ function Search({user}) {
     let [results, setResults] = useState([]);
     let movies;
 
-    const handleClick = async (aMovie) => {
+    const handleClick = async (aMovie, watchlist) => {
         //save movie to database
         const response = await axios.post(`http://localhost:8080/movie`, aMovie);
-        console.log(response);
 
         //TODO: add movie to the specific watchlist selected
         //--maybe this could be done by when you hover over the add to watchlist button, it shows you options?
-        console.log(`Added ${aMovie.title} to watchlist!`);
+        console.log(`Added ${aMovie.title} to watchlist ${watchlist.name}!`);
 
     }
 
@@ -45,9 +74,23 @@ function Search({user}) {
                         <p>
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
-                        <p>
-                            <Button onClick={() => handleClick(movie)} variant='contained'>Add to Watchlist</Button>
-                        </p>
+                        <ul>
+                            {watchlists.length > 0 ? (
+                                watchlists.map((watchlist) => (
+                                    <li>
+                                        <Button 
+                                            key={watchlist.id}
+                                            onClick={() => handleClick(movie, watchlist)}
+                                            variant='contained'>{watchlist.name}
+                                        </Button>
+                                        <br></br>
+                                    </li>
+                                ))
+                            ) : (
+                                <h3>No Watchlists Found!</h3>
+                            )}
+                        </ul>
+                        <br></br>
                     </div>
                 )
             }));
