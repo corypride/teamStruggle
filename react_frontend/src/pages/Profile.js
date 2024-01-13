@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Anon from '../Media/anon.jpeg';
 import "../Styles/Profile.css";
 import Watchlist from '../Components/Watchlist';
-import { user } from '../user';
-import { useLocation } from 'react-router-dom';
 
 function Profile({user}) {
 
-    // const username = useLocation().state;
-    // console.log(username);
 
     //TODO: Need to figure out how to pass in userDetailsId properly
+    //when userDetails change, update user with setUser?
     const [userDetailsId, setUserDetailsId] = useState(user.userDetailsId);
     console.log(userDetailsId);
 

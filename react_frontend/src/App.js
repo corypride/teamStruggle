@@ -8,7 +8,6 @@ import Profile from './pages/Profile';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Home from './pages/home';
-import Profile from './pages/Profile';
 import React, { useState} from 'react';
 
 function App() {
@@ -17,6 +16,8 @@ function App() {
     name: "",
     username: "",
     password: "",
+    userId: "",
+    userDetailsId: "1"
   });
 
   const userUpdate = (newUser) => {
@@ -27,7 +28,7 @@ function App() {
     <div className="App">
       {/*Switch tells router we want to route one tag at a time */}
       <Router>
-        <Navbar user={user}/>
+        <Navbar user={user} onUserUpdate={userUpdate}/>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/login" element={<Login onUserUpdate={userUpdate} />} />
