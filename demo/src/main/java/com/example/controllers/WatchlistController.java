@@ -1,14 +1,19 @@
 package com.example.controllers;
 
+import com.example.data.UserRepository;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.models.Movie;
+import com.example.models.User;
+import com.example.models.UserDetails;
 import com.example.models.Watchlist;
 import com.example.models.data.MovieRepository;
+import com.example.models.data.UserDetailsRepository;
 import com.example.models.data.WatchlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +27,9 @@ public class WatchlistController {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    UserDetailsRepository userDetailsRepository;
 
     @GetMapping("watchlist/{id}")
     @ResponseBody
@@ -44,8 +52,14 @@ public class WatchlistController {
         }
     }
 
-    @PostMapping("watchlist")
-    public ResponseEntity<Watchlist> saveNewWatchlist(@RequestBody Watchlist newWatchlist){
+    @PostMapping("watchlist/{userDetailsId}/{watchlistName}")
+    public ResponseEntity<Watchlist> createNewWatchlist(@PathVariable Integer userDetailsId,
+                                                        @PathVariable String watchlistName){
+        //If user exists, associate new watchlist to existing user
+        UserDetails existingUserDetails = userDetailsRepository.findById(userDetailsId)
+                .orElseThrow(() -> new ResourceNotFoundException("cannot find userDetails with given id: " + userDetailsId));
+
+        Watchlist newWatchlist = new Watchlist("custom", watchlistName, new ArrayList<Movie>(), existingUserDetails);
         watchlistRepository.save(newWatchlist);
         return ResponseEntity.ok(newWatchlist);
     }
