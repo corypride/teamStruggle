@@ -8,7 +8,6 @@ import Profile from './pages/Profile';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Home from './pages/home';
-import Profile from './pages/Profile';
 import React, {useState} from "react";
 
 
