@@ -8,9 +8,13 @@ function Login({onUserUpdate}) {
 
     //newUser represents current form fields. handleUser updates newUser. handleSubmit sets global user via onUserUpdate
     const [newUser, setNewUser] = useState({
+        name: "",
         username: "",
         password: "",
+        userId: "",
+        userDetailsId: "1"
       });
+
     const {username, password} = newUser;
 
     let navigate = useNavigate();
