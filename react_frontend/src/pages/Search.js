@@ -2,13 +2,12 @@ import React, {useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
-import {user} from "../user";
 
 //currently prints selected movie title to console when "add to watchlist 
 //button" is clicked. will add info to database
 
 
-function Search() {
+function Search({user}) {
     const [searchTerm, setSearchTerm] = useState(""); 
     let [results, setResults] = useState([]);
     let movies;
@@ -48,9 +47,7 @@ function Search() {
         }
     }
     
-
     return (
-
         <div id="parent">
             <div className='search-container'>
                 <div className='input-button-container'>

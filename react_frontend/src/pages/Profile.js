@@ -1,13 +1,12 @@
 import React from 'react'
 import Anon from '../Media/anon.jpeg';
 import "../Styles/Profile.css";
-import {user} from '../user';
 import { useLocation } from 'react-router-dom';
 
-function Profile() {
+function Profile({user}) {
 
-    const username = useLocation().state;
-    console.log(username);
+    // const username = useLocation().state;
+    // console.log(username);
 
     return (
         <div className='profile'>

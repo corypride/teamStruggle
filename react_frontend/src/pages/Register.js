@@ -2,29 +2,24 @@ import React, {useState} from 'react'
 import '../Styles/Register.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import {user} from "../user";
 
-function Register() {
+function Register({user, onUserUpdate}) {
 
     let navigate = useNavigate();
 
-    const [currentUser, setCurrentUser] = useState(user);
-
-    /* This is the same as doing:
-    // let name = user.name;
-    // let username = user.username;
-    let password = user.password; */
-    const {name, username, password} = currentUser;
+    const [newUser, setNewUser] = useState({
+      name: "",
+      username: "",
+      password: "",
+    });
+    const {name, username, password} = newUser;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // await axios.post("http://localhost:8080/register", user);
-        // navigate("/");
-        user.name = currentUser.name;
-        user.username = currentUser.username;
-        user.password = currentUser.password
-        console.log(user);
-    }
+        onUserUpdate(newUser);
+        navigate("/profile");
+    };
 
     /*  
     e is short for event that is happening (change). 
@@ -36,7 +31,7 @@ function Register() {
     */
 
     const handleNewUser = (e) => {
-      setCurrentUser({...currentUser, [e.target.name] : e.target.value});
+      setNewUser({...newUser, [e.target.name] : e.target.value});
     }
 
   return (
@@ -54,9 +49,6 @@ function Register() {
             <label htmlFor='password'>Password</label>
             <input value={password} onChange={(e) => handleNewUser(e)} placeholder='Enter password' name='password' type='password' id='password'/>
             <button>Register</button>
-            {/* <Link to="/profile" state={email}>
-              <button onClick={handleSubmit}>Register</button>
-            </Link> */}
         </form> 
     </div>
   )
