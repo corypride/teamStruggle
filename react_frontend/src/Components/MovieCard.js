@@ -10,13 +10,18 @@ export const MovieCard = ({ movie }) => {
                         alt={`${movie.title} Art`}
                     />
                 ) : (
-                    <div></div>
+                    /* this should return a placeholder image */ <div></div>
                 )}
             </div>
 
             <div>
                 <h3>{movie.title}</h3>
             </div>
+            <div>
+                {/*TODO: add an add to watchlist button*/}
+            </div>
         </div>
     )
 }
+
+export default MovieCard;

@@ -11,9 +11,6 @@ import Home from './pages/home';
 import Profile from './pages/Profile';
 import React, { useState} from 'react';
 
-
-
-
 function App() {
 
   let [user, setUser] = useState({

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,8 +31,18 @@ public class WatchlistController {
         return watchlistToReturn;
         }
 
+        //Returns all watchlists associated with a userDetailsId
+    @GetMapping("watchlists/{userDetailsId}")
+    @ResponseBody
+    public ResponseEntity<List<Watchlist>> getAllUserWatchlists(@PathVariable Integer userDetailsId) {
+        List<Watchlist> watchlists = watchlistRepository.findByUserDetailsId(userDetailsId);
 
-    //TODO: make a getAllUserWatchlists method
+        if (watchlists.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(watchlists);
+        }
+    }
 
     @PostMapping("watchlist")
     public ResponseEntity<Watchlist> saveNewWatchlist(@RequestBody Watchlist newWatchlist){

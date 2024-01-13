@@ -1,14 +1,14 @@
 import React from 'react';
 import { MovieCard } from "./MovieCard";
 
-export const Watchlist = (watchlist) => {
+export const Watchlist = ( {watchlist} ) => {
   return (
     <div>
         <div>
             <h1>{watchlist.name}</h1>
         <div>
-        {watchlist.map((movieInList) => (
-            <MovieCard key={movieInList.id} movie={movieInList} />
+        {watchlist.moviesInList.map( (movie) => (
+            <MovieCard key={movie.id} movie={movie} />
           ))}
             
             {watchlist.length === 0 && <p>No movies in the watchlist</p>}
@@ -17,3 +17,5 @@ export const Watchlist = (watchlist) => {
     </div>
   )
 }
+
+export default Watchlist;
