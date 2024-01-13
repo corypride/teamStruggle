@@ -1,5 +1,6 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Watchlist {
     private List<Movie> moviesInList = new ArrayList<>(); //TODO: test that this is populating correctly
 
     @ManyToOne
+    @JsonBackReference // Add this annotation to break the loop
     @JoinColumn(name = "user_details_id", nullable = false)
     private UserDetails userDetails;
 
