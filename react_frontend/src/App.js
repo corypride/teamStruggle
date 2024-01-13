@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Search from './pages/Search';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
+import Profile from './pages/Profile';
 import Home from './pages/home';
 import React, { useState} from 'react';
 
