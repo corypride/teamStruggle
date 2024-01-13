@@ -1,5 +1,6 @@
 package com.example.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -20,6 +21,7 @@ public class Movie {
     private List<Integer> genre_ids;
     private String original_language;
     private String original_title;
+    @Column(length = 1000)
     private String overview;
     private Double popularity;
     private String poster_path;

@@ -13,7 +13,6 @@ export const MovieCard = ({ movie }) => {
                     /* this should return a placeholder image */ <div></div>
                 )}
             </div>
-
             <div>
                 <h3>{movie.title}</h3>
             </div>

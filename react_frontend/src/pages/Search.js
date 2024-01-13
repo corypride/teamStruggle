@@ -15,6 +15,7 @@ function Search({user}) {
     const handleClick = async (aMovie) => {
         //save movie to database
         const response = await axios.post(`http://localhost:8080/movie`, aMovie);
+        console.log(response);
 
         //TODO: add movie to the specific watchlist selected
         //--maybe this could be done by when you hover over the add to watchlist button, it shows you options?
