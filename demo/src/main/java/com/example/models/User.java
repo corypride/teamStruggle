@@ -9,7 +9,7 @@ import java.lang.reflect.Array;
 
 @Entity
 public class User extends AbstractEntity {
-  
+
     @NotNull
     private String username;
 
@@ -44,6 +44,7 @@ public class User extends AbstractEntity {
 
     // Instance method to use the bcrypt multi-step matcher (.equals is not enough)
     public boolean isMatchingPassword(String password) {
+
         return encoder.matches(password, pwHash);
     }
 
