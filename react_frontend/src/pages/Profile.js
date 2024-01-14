@@ -22,6 +22,9 @@ function Profile({ user }) {
     const [renameWatchlistFieldRevealed, setRenameWatchlistFieldRevealed] = useState(false);
     const [renameWatchlistFields, setRenameWatchlistFields] = useState({});
 
+    const handleWatchlistUpdate = () => {
+        fetchWatchlists();
+    };
 
     const fetchWatchlists = async () => {
         try {
@@ -144,7 +147,7 @@ function Profile({ user }) {
                                                 () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
                                         </div>
                                     )}
-                                    <Watchlist key={watchlist.id} watchlist={watchlist} />
+                                    <Watchlist key={watchlist.id} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} />
                                 </Grid>
 
                             </div>
