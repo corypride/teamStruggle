@@ -80,6 +80,7 @@ public class WatchlistController {
         //deletion of the "saved" list type is not allowed
         if(Objects.equals(watchlistToDelete.getListType(), "saved")){
             return ResponseEntity.ok("This list cannot be deleted.");
+
         }
         watchlistRepository.deleteById(id);
 
