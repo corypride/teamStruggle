@@ -89,9 +89,9 @@ function Profile({ user }) {
         <div className='profile'>
             <h1>{user.username}</h1>
             {/* pull full name from database in another component and pass in state?*/}
-            <img src={Anon} className='anon' alt="profile pic" />
+            {/* <img src={Anon} className='anon' alt="profile pic" /> */}
             <div>
-                <h2>My Watchlists</h2>
+                <h2>MY WATCHLISTS</h2>
                 <div>
                     <Button onClick={() => setModalIsOpen(true)} > Create New Watchlist</Button>
                 </div>
@@ -116,15 +116,15 @@ function Profile({ user }) {
                     {watchlists.length > 0 ? (
                         watchlists.map((watchlist) => (
                             <div>
-                                <Watchlist key={watchlist.id} watchlist={watchlist} />
-                                <div>
-                                    <Icon
+                                <Icon
                                         name="edit"
                                         tooltip="Edit"
                                         theme="light"
                                         size="medium"
                                         onClick={() => setRenameWatchlistFieldRevealed((prevValue) => !prevValue)}
-                                    />
+                                />
+                                <Watchlist key={watchlist.id} watchlist={watchlist} />
+                                <div>
                                     {renameWatchlistFieldRevealed && (
                                         <div>
                                               <input

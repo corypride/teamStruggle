@@ -14,7 +14,7 @@ export const MovieCard = ({ movie }) => {
                 )}
             </div>
             <div>
-                <h3>{movie.title}</h3>
+                <h4>{movie.title}</h4>
             </div>
             <div>
                 {/*TODO: add an add to watchlist button*/}
