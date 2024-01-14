@@ -1,6 +1,46 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Icon from "react-crud-icons";
+import "../Styles/react-crud-icons.css";
+import axios from 'axios';
 
-export const MovieCard = ({ movie }) => {
+
+export const MovieCard = ({ movie , watchlist }) => {
+
+    const [movies, setMovies] = useState([]);
+
+    const DeleteButton = (movie, watchlistId) => (
+        <Icon
+          name="delete"
+          tooltip="Delete"
+          theme="light"
+          size="medium"
+          onClick={() => handleDeleteMovie(movie, watchlist)}
+        />
+      );
+
+      const handleDeleteMovie = async (movie, watchlist) => {
+        try {
+
+            //Not sure why movie is a weird structure, but the correct way to access id is movie.movie.id
+            // Make a request to delete a movie from a watchlist 
+            const response = await axios.delete(`http://localhost:8080/watchlist/${watchlist.id}/${movie.movie.id}`)
+
+            fetchMovies();
+        } catch (error) {
+            console.error('Error removing movie from watchlist:', error);
+        }
+    };
+
+    const fetchMovies = async () => {
+        try {
+            // Fetch movies based on WatchlistId
+            const moviesData = await axios.get(`http://localhost:8080/watchlist/movies/${watchlist.id}`);
+            setMovies(moviesData.data);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
+    };
+
     return (
         <div>
             <div>
@@ -17,7 +57,7 @@ export const MovieCard = ({ movie }) => {
                 <h3>{movie.title}</h3>
             </div>
             <div>
-                {/*TODO: add an add to watchlist button*/}
+                <DeleteButton movie={movie} watchlist = {watchlist}/>
             </div>
         </div>
     )
