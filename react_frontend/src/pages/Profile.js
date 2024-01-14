@@ -5,6 +5,10 @@ import "../Styles/Profile.css";
 import Watchlist from '../Components/Watchlist';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import Icon from "react-crud-icons";
+
+import "../Styles/react-crud-icons.css";
+
 
 Modal.setAppElement('#root');
 
@@ -14,6 +18,10 @@ function Profile({ user }) {
     const [watchlists, setWatchlists] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newWatchlistName, setNewWatchlistName] = useState('');
+    const [renameWatchlistFieldRevealed, setRenameWatchlistFieldRevealed] = useState(false);
+    const [renameWatchlistFields, setRenameWatchlistFields] = useState({});
+
+
 
     const fetchWatchlists = async () => {
         try {
@@ -58,6 +66,25 @@ function Profile({ user }) {
         }
     };
 
+    const handleRenameWatchlist = async (watchlist) => {
+        try {
+            // Make a request to rename an existing watchlist // TODO!!
+            const response = await axios.put(`http://localhost:8080/api/watchlist/${watchlist.id}`, watchlist)
+
+            fetchWatchlists();
+
+        } catch (error) {
+            console.error('Error renaming watchlist:', error);
+        }
+    };
+
+    const handleRenameInputChange = (watchlistId, value) => {
+        setRenameWatchlistFields(prevState => ({
+            ...prevState,
+            [watchlistId]: value,
+        }));
+    };
+
     return (
         <div className='profile'>
             <h1>{user.username}</h1>
@@ -91,8 +118,31 @@ function Profile({ user }) {
                             <div>
                                 <Watchlist key={watchlist.id} watchlist={watchlist} />
                                 <div>
-                                    <Button onClick={ // TODO: add an "Are you sure?" popup here
-                                        () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                    <Icon
+                                        name="edit"
+                                        tooltip="Edit"
+                                        theme="light"
+                                        size="medium"
+                                        onClick={() => setRenameWatchlistFieldRevealed((prevValue) => !prevValue)}
+                                    />
+                                    {renameWatchlistFieldRevealed && (
+                                        <div>
+                                              <input
+                                                name={watchlist.name}
+                                                placeholder={`Rename ${watchlist.name}`}
+                                                value={renameWatchlistFields[watchlist.id]}
+                                                type="text"
+                                                onChange={(e) => handleRenameInputChange(watchlist.id, e.target.value)}
+                                            />
+                                           <Button onClick={(e) => {
+                                                watchlist.name = renameWatchlistFields[watchlist.id];
+                                                handleRenameWatchlist(watchlist);
+                                            }
+                                            }>Submit</Button>
+                                            <Button onClick={ // TODO: add an "Are you sure?" popup here
+                                                () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))
