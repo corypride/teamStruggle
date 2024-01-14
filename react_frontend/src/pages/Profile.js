@@ -22,7 +22,6 @@ function Profile({ user }) {
     const [renameWatchlistFields, setRenameWatchlistFields] = useState({});
 
 
-
     const fetchWatchlists = async () => {
         try {
             // Fetch watchlists based on userDetailsId
@@ -116,34 +115,35 @@ function Profile({ user }) {
                     {watchlists.length > 0 ? (
                         watchlists.map((watchlist) => (
                             <div>
-                                <Icon
+                                <div>
+                                    <Icon
                                         name="edit"
                                         tooltip="Edit"
                                         theme="light"
                                         size="medium"
                                         onClick={() => setRenameWatchlistFieldRevealed((prevValue) => !prevValue)}
-                                />
-                                <Watchlist key={watchlist.id} watchlist={watchlist} />
-                                <div>
-                                    {renameWatchlistFieldRevealed && (
-                                        <div>
-                                              <input
-                                                name={watchlist.name}
-                                                placeholder={`Rename ${watchlist.name}`}
-                                                value={renameWatchlistFields[watchlist.id]}
-                                                type="text"
-                                                onChange={(e) => handleRenameInputChange(watchlist.id, e.target.value)}
-                                            />
-                                           <Button onClick={(e) => {
-                                                watchlist.name = renameWatchlistFields[watchlist.id];
-                                                handleRenameWatchlist(watchlist);
-                                            }
-                                            }>Submit</Button>
-                                            <Button onClick={ // TODO: add an "Are you sure?" popup here
-                                                () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
-                                        </div>
-                                    )}
+                                    />
                                 </div>
+                                {renameWatchlistFieldRevealed && (
+                                    <div>
+                                        <input
+                                            name={watchlist.name}
+                                            placeholder={`Rename ${watchlist.name}`}
+                                            value={renameWatchlistFields[watchlist.id]}
+                                            type="text"
+                                            onChange={(e) => handleRenameInputChange(watchlist.id, e.target.value)}
+                                        />
+                                        <Button onClick={(e) => {
+                                            watchlist.name = renameWatchlistFields[watchlist.id];
+                                            handleRenameWatchlist(watchlist);
+                                        }
+                                        }>Submit</Button>
+                                        <Button onClick={ // TODO: add an "Are you sure?" popup here
+                                            () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                    </div>
+                                )}
+                                <Watchlist key={watchlist.id} watchlist={watchlist} />
+
                             </div>
                         ))
                     ) : (

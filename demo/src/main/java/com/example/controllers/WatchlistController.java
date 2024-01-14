@@ -40,7 +40,17 @@ public class WatchlistController {
         return watchlistToReturn;
         }
 
-        //Returns all watchlists associated with a userDetailsId
+    @GetMapping("watchlist/movies/{watchlistId}")
+    @ResponseBody
+    public List<Movie> getMoviesInWatchlist(@PathVariable Integer watchlistId) {
+        Watchlist moviesToReturn = watchlistRepository.findById(watchlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + watchlistId));
+
+        return moviesToReturn.getMoviesInList();
+    }
+
+
+    //Returns all watchlists associated with a userDetailsId
     @GetMapping("watchlists/{userDetailsId}")
     @ResponseBody
     public ResponseEntity<List<Watchlist>> getAllUserWatchlists(@PathVariable Integer userDetailsId) {

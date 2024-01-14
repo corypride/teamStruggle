@@ -8,7 +8,7 @@ export const Watchlist = ( {watchlist} ) => {
             <h3>{watchlist.name}</h3>
         <div>
         {watchlist.moviesInList.map( (movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard key={movie.id} movie={movie} watchlist={watchlist} />
           ))}
             
             {watchlist.length === 0 && <p>No movies in the watchlist</p>}
