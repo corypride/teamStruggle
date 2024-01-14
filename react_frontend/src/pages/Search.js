@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
@@ -10,37 +10,33 @@ import Button from '@mui/material/Button';
 // button info, and on click display the name and id of the clicked button)
 // https://mui.com/material-ui/react-button-group/#split-button (good example of dropdown)
 //
-// TODO: after that works, use the backend to get the watchlists,
-// and test adding with the button via a post onClick
+// DONE: after that works, use the backend to get the watchlists,
+//
+// TODO: test adding with the button via a post onClick
 //
 // TODO: after that, check to see if this movie
 // is already in the watchlist and instead say remove from watchlist (and call)
 // the appropriate API with the id and movie etc
 //
-let watchlists = [
-    {
-        id: 0,
-        name: "Watched"
-    },
-    {
-        id: 1,
-        name: "General Watchlist"
-    },
-    {
-        id: 2,
-        name: "Custom user watchlist1"
-    },
-    {
-        id: 3,
-        name: "Custom user watchlist2"
-    }
-]
 
 
 function Search({user}) {
-    const [searchTerm, setSearchTerm] = useState(""); 
+    const [searchTerm, setSearchTerm] = useState("");
+    let [watchlists, setWatchlists] = useState([]); 
     let [results, setResults] = useState([]);
     let movies;
+    
+    const fetchWatchlists = async () => {
+        const response = await axios.get(`http://localhost:8080/watchlists/${user.userDetailsId}`);
+        watchlists = response.data;
+        setWatchlists(watchlists);
+    };
+    console.log(`My watchlists are:`);
+    console.log({watchlists});
+
+    useEffect(() => {
+        fetchWatchlists();
+    }, [user.userDetailsId]);
 
     const handleClick = async (aMovie, watchlist) => {
         //save movie to database
