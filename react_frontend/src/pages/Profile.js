@@ -68,7 +68,7 @@ function Profile({ user }) {
 
     const handleRenameWatchlist = async (watchlist) => {
         try {
-            // Make a request to rename an existing watchlist // TODO!!
+            // Make a request to rename an existing watchlist 
             const response = await axios.put(`http://localhost:8080/api/watchlist/${watchlist.id}`, watchlist)
 
             fetchWatchlists();
