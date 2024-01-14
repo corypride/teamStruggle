@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import Icon from "react-crud-icons";
 import { Grid } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import "../Styles/react-crud-icons.css";
 
@@ -14,7 +15,9 @@ axios.defaults.withCredentials = true;
 
 Modal.setAppElement('#root');
 
-function Profile({ user }) {
+function Profile({ user , movieObjUpdate  }) {
+
+    console.log('received :', movieObjUpdate);
 
     console.log(user.id)
     const [userDetailsId, setUserDetailsId] = useState(user.id);
@@ -27,6 +30,9 @@ function Profile({ user }) {
     const handleWatchlistUpdate = () => {
         fetchWatchlists();
     };
+    let [movieRec, setMovieRec] = useState({
+        movieObj: ""
+      });
 
     const fetchWatchlists = async () => {
         try {
@@ -155,11 +161,13 @@ function Profile({ user }) {
                                                 handleRenameWatchlist(watchlist);
                                             }
                                             }>Submit</Button>
-                                            <Button onClick={ // TODO: add an "Are you sure?" popup here
-                                                () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                            <Tooltip title="Warning: Deletion is final!">
+                                                <Button onClick={ // TODO: add an "Are you sure?" popup here
+                                                    () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                            </Tooltip>
                                         </div>
                                     )}
-                                    <Watchlist key={watchlist.id} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} />
+                                    <Watchlist key={watchlist.id} watchlist={watchlist} movieObjUpdate={movieObjUpdate} handleWatchlistUpdate={handleWatchlistUpdate} />
                                 </Grid>
 
                             </div>
@@ -169,7 +177,7 @@ function Profile({ user }) {
                     )}
                 </ul>
 
-                
+
                 <button onClick={handleAddFriend}>Add friend</button>
 
                 <h2>Friends</h2>
