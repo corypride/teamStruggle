@@ -16,8 +16,8 @@ import java.util.List;
 public class AuthenticationFilter implements HandlerInterceptor {
 
      //LaunchCode has this in their examples, but it is actually never used
-     @Autowired
-     UserRepository userRepository;
+//     @Autowired
+//     UserRepository userRepository;
 
     @Autowired
     AuthenticationController authenticationController;

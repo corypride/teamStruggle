@@ -77,7 +77,7 @@ public class AuthenticationController {
 
         User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
         userRepository.save(newUser);
-        System.out.println("I am here");
+//        System.out.println("I am here");
         setUserInSession(request.getSession(), newUser);
 
         return "redirect:";
