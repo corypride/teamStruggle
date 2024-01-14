@@ -40,14 +40,10 @@ function Search({user}) {
 
     const handleClick = async (aMovie, watchlist) => {
         //save movie to database
-        const response = await axios.post(`http://localhost:8080/movie`, aMovie);
-
-        //TODO: add movie to the specific watchlist selected
-        //--maybe this could be done by when you hover over the add to watchlist button, it shows you options?
-        console.log(`Added ${aMovie.title} to watchlist ${watchlist.name}!`);
-
+        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie);
+        const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
     }
-
+    
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
         movies = response.data.slice(0, 10);
