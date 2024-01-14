@@ -10,6 +10,7 @@ import com.example.models.data.MovieRepository;
 import com.example.models.data.UserDetailsRepository;
 import com.example.models.data.WatchlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,21 +66,32 @@ public class WatchlistController {
     }
 
     // this updates all the data in a watchlist based on data passed in through Put request
-    @PutMapping("watchlist/{id}")
+    @PutMapping("api/watchlist/{id}")
     public ResponseEntity<Watchlist> updateWatchlist(@PathVariable Integer id, @RequestBody Watchlist watchlistDetails) {
-        Watchlist updateWatchlist = watchlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + id));
+        try {
+            Watchlist existingWatchlist = watchlistRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + id));
 
-        //update all fields with new data
-        //TODO: May want to change this logic to only update what was changed?
-        updateWatchlist.setListType(watchlistDetails.getListType());
-        updateWatchlist.setName(watchlistDetails.getName());
-        updateWatchlist.setMoviesInList(watchlistDetails.getMoviesInList());
-        updateWatchlist.setUserDetails(watchlistDetails.getUserDetails());
+            // Update only the fields that are not null in watchlistDetails
+            if (watchlistDetails.getListType() != null) {
+                existingWatchlist.setListType(watchlistDetails.getListType());
+            }
+            if (watchlistDetails.getName() != null) {
+                existingWatchlist.setName(watchlistDetails.getName());
+            }
+            if (watchlistDetails.getMoviesInList() != null) {
+                existingWatchlist.setMoviesInList(watchlistDetails.getMoviesInList());
+            }
+            if (watchlistDetails.getUserDetails() != null) {
+                existingWatchlist.setUserDetails(watchlistDetails.getUserDetails());
+            }
 
-        watchlistRepository.save(updateWatchlist);
+            watchlistRepository.save(existingWatchlist);
 
-        return ResponseEntity.ok(watchlistDetails);
+            return ResponseEntity.ok(existingWatchlist);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     //this adds a single movie to a watchlist with the Watchlistid in the path first and then the movie ID TODO: test it
