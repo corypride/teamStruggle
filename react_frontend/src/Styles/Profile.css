@@ -8,9 +8,8 @@
 }
 
 .profile img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex;
+    justify-content: left;
     margin-bottom: 10px;
     width: 150px;
     height: 200px;
@@ -41,4 +40,5 @@
     display: flex;
     justify-content: left;
     margin-bottom: 50px;
+    font-size: 20px;
   }
