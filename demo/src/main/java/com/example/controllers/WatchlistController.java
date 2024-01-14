@@ -109,6 +109,21 @@ public class WatchlistController {
         return ResponseEntity.ok("Watchlist updated successfully!");
     }
 
+    //this removes a movie from a watchlist
+    @DeleteMapping("watchlist/{watchlistId}/{movieId}")
+    public ResponseEntity<String> removeMovieToWatchlist(@PathVariable Integer watchlistId, @PathVariable Integer movieId) {
+        Watchlist updateWatchlist = watchlistRepository.findById(watchlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("No watchlist with given id: " + watchlistId));
+
+        Movie movieToRemove = movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResourceNotFoundException("No movie with given id: " + movieId));
+
+        updateWatchlist.addMovieToWatchlist(movieToRemove);
+        watchlistRepository.save(updateWatchlist);
+
+        return ResponseEntity.ok("Movie removed from watchlist successfully!");
+    }
+
     @DeleteMapping("watchlist/{id}")
     public ResponseEntity<String> deleteWatchlist(@PathVariable Integer id){
         Watchlist watchlistToDelete = watchlistRepository.findById(id)
