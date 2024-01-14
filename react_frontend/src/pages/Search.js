@@ -67,20 +67,43 @@ function Search({user}) {
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
                         <ul>
-                            {watchlists.length > 0 ? (
-                                watchlists.map((watchlist) => (
-                                    <li>
-                                        <Button 
-                                            key={watchlist.id}
-                                            onClick={() => handleClick(movie, watchlist)}
-                                            variant='contained'>{watchlist.name}
-                                        </Button>
-                                        <br></br>
-                                    </li>
-                                ))
-                            ) : (
-                                <h3>No Watchlists Found!</h3>
-                            )}
+                            {
+                                watchlists.map((watchlist) => {
+                                    let inList = false;
+
+                                    // Figure out if this movie is already in the list
+                                    for (const currentMovie of watchlist.moviesInList) {
+                                        if (currentMovie.id === movie.id) {
+                                            inList = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (inList) {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    key={watchlist.id}
+                                                    onClick={() => console.log(`Should remove ${movie.title}`)}
+                                                    variant='contained'>{`REMOVE FROM ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    } else {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    key={watchlist.id}
+                                                    onClick={() => handleClick(movie, watchlist)}
+                                                    variant='contained'>{`ADD TO ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    }
+                                })
+                            }
                         </ul>
                         <br></br>
                     </div>
