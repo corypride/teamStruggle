@@ -118,7 +118,7 @@ public class WatchlistController {
         Movie movieToRemove = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("No movie with given id: " + movieId));
 
-        updateWatchlist.addMovieToWatchlist(movieToRemove);
+        updateWatchlist.removeMovieFromWatchlist(movieToRemove);
         watchlistRepository.save(updateWatchlist);
 
         return ResponseEntity.ok("Movie removed from watchlist successfully!");
