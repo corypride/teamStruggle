@@ -1,17 +1,12 @@
 package com.example.controllers;
 
 import com.example.data.ReviewRepository;
-import com.example.models.User;
 import com.example.models.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@CrossOrigin(origins = "*")
-@RestController
 public class ReviewController {
 
     @Autowired
