@@ -58,6 +58,17 @@ function Profile({ user }) {
         }
     };
 
+    const handleAddFriend = async (addFriend) => {
+        try {
+            //add friend
+            const response = await axios.post(`http://localhost:8080/watchlist/${addFriend}`)
+
+        } catch (error) {
+            console.error('Error deleting watchlist:', error);
+        }
+
+    }
+
     return (
         <div className='profile'>
             <h1>{user.username}</h1>
@@ -100,6 +111,11 @@ function Profile({ user }) {
                         <h3>No Watchlists Found!</h3>
                     )}
                 </ul>
+
+                
+                <button onClick={handleAddFriend}>Add friend</button>
+
+                <h2>Friends</h2>
             </div>
         </div>
     )

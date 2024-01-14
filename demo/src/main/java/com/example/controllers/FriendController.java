@@ -5,7 +5,6 @@ import com.example.data.UserRepository;
 import com.example.models.Friend;
 import com.example.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +58,16 @@ public class FriendController {
 
         return "list";
     }
+    /*public List<User> getFriends(){
+        User currentUser = userRepository.findByUsername();
+        List<Friend> friends = friendRepository.findByFirstUser(currentUser);
+        List<User> friendUsers = new ArrayList<User>();
+
+        for (Friend friend : friends) {
+            friendUsers.add(userRepository.findByUsername(friend.getSecondUser().getId()));
+        }
+        return friendUsers;
+
+    }*/
 
 }

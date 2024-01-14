@@ -34,6 +34,7 @@ function App() {
           <Route path="/login" element={<Login onUserUpdate={userUpdate} />} />
           <Route path="/register" element={<Register user={user} onUserUpdate={userUpdate}/>}/>
           <Route path="/search" element={<Search user={user}/>}/>
+          <Route path="/usersearch" element={<Search user={user}/>}/>
           <Route path="/profile" element={<Profile user={user}/>}/>
         </Routes>
         <Footer />
