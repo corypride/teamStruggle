@@ -1,6 +1,35 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import Icon from "react-crud-icons";
+import "../Styles/react-crud-icons.css";
+import axios from 'axios';
 
-export const MovieCard = ({ movie }) => {
+
+export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate}) => {
+
+
+    const DeleteButton = (movie) => (
+        <Icon
+          name="delete"
+          tooltip="Delete"
+          theme="light"
+          size="medium"
+          onClick={() => handleDeleteMovie(movie, watchlist)}
+        />
+      );
+
+      const handleDeleteMovie = async (movie, watchlist) => {
+        try {
+
+            //Not sure why movie is a weird structure, but the correct way to access id is movie.movie.id
+            // Make a request to delete a movie from a watchlist 
+            const response = await axios.delete(`http://localhost:8080/watchlist/${watchlist.id}/${movie.movie.id}`)
+            handleWatchlistUpdate();
+
+        } catch (error) {
+            console.error('Error removing movie from watchlist:', error);
+        }
+    };
+
     return (
         <div>
             <div>
@@ -14,10 +43,9 @@ export const MovieCard = ({ movie }) => {
                 )}
             </div>
             <div>
-                <h3>{movie.title}</h3>
-            </div>
-            <div>
-                {/*TODO: add an add to watchlist button*/}
+                <h4>{movie.title}
+                <DeleteButton movie={movie} watchlist={watchlist} />
+                </h4>
             </div>
         </div>
     )

@@ -30,6 +30,11 @@ public class Watchlist {
         moviesInList.add(movie);
     }
 
+    public void removeMovieFromWatchlist(Movie movie) {
+        moviesInList.remove(movie);
+    }
+
+
     public Watchlist(String listType, String name, List<Movie> moviesInList, UserDetails userDetails) {
         this.listType = listType;
         this.name = name;

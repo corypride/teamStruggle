@@ -11,6 +11,8 @@ function Register({user, onUserUpdate}) {
       name: "",
       username: "",
       password: "",
+      userId: "",
+      userDetailsId: "1",
     });
     const {name, username, password} = newUser;
 

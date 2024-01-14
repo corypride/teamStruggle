@@ -1,57 +1,49 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
 
-// fake watchlists until connected to backend
-//
-// DONE: make buttons via mapping (using watchlist name to populate
-// button info, and on click display the name and id of the clicked button)
-// https://mui.com/material-ui/react-button-group/#split-button (good example of dropdown)
-//
-// TODO: after that works, use the backend to get the watchlists,
-// and test adding with the button via a post onClick
-//
-// TODO: after that, check to see if this movie
-// is already in the watchlist and instead say remove from watchlist (and call)
-// the appropriate API with the id and movie etc
-//
-let watchlists = [
-    {
-        id: 0,
-        name: "Watched"
-    },
-    {
-        id: 1,
-        name: "General Watchlist"
-    },
-    {
-        id: 2,
-        name: "Custom user watchlist1"
-    },
-    {
-        id: 3,
-        name: "Custom user watchlist2"
-    }
-]
-
-
 function Search({user}) {
-    const [searchTerm, setSearchTerm] = useState(""); 
+    const [searchTerm, setSearchTerm] = useState("");
+    let [watchlists, setWatchlists] = useState([]); 
     let [results, setResults] = useState([]);
     let movies;
+    
+    const fetchWatchlists = async () => {
+        const response = await axios.get(`http://localhost:8080/watchlists/${user.userDetailsId}`);
+        watchlists = response.data;
+        setWatchlists(watchlists);
+    };
 
-    const handleClick = async (aMovie, watchlist) => {
+    useEffect(() => {
+        fetchWatchlists();
+    }, [user.userDetailsId]);
+
+    const handleAddClick = async (aMovie, watchlist) => {
         //save movie to database
-        const response = await axios.post(`http://localhost:8080/movie`, aMovie);
+        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie);
+        const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
 
-        //TODO: add movie to the specific watchlist selected
-        //--maybe this could be done by when you hover over the add to watchlist button, it shows you options?
-        console.log(`Added ${aMovie.title} to watchlist ${watchlist.name}!`);
-
+        // Fetch watchlists again to update state (and get current list)
+        // The "results" variable (and the buttons it contains) are only updated
+        // when we call handleSearch(), so do it again right now...
+        // TODO: Figure out how to update the button without doing that
+        fetchWatchlists();
+        handleSearch();
     }
 
+    const handleRemoveClick = async (aMovie, watchlist) => {
+        const watchlistResponse = await axios.delete(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
+
+        // Fetch watchlists again to update state (and get current list)
+        // The "results" variable (and the buttons it contains) are only updated
+        // when we call handleSearch(), so do it again right now...
+        // TODO: Figure out how to update the button without doing that
+        fetchWatchlists();
+        handleSearch();
+    }
+    
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
         movies = response.data.slice(0, 10);
@@ -75,20 +67,44 @@ function Search({user}) {
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
                         <ul>
-                            {watchlists.length > 0 ? (
-                                watchlists.map((watchlist) => (
-                                    <li>
-                                        <Button 
-                                            key={watchlist.id}
-                                            onClick={() => handleClick(movie, watchlist)}
-                                            variant='contained'>{watchlist.name}
-                                        </Button>
-                                        <br></br>
-                                    </li>
-                                ))
-                            ) : (
-                                <h3>No Watchlists Found!</h3>
-                            )}
+                            {
+                                watchlists.map((watchlist) => {
+                                    let inList = false;
+
+                                    // Figure out if this movie is already in the list
+                                    for (const currentMovie of watchlist.moviesInList) {
+                                        if (currentMovie.id === movie.id) {
+                                            inList = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (inList) {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    style={{backgroundColor: '#B22222'}}
+                                                    key={watchlist.id}
+                                                    onClick={() => handleRemoveClick(movie, watchlist)}
+                                                    variant='contained'>{`REMOVE FROM ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    } else {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    key={watchlist.id}
+                                                    onClick={() => handleAddClick(movie, watchlist)}
+                                                    variant='contained'>{`ADD TO ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    }
+                                })
+                            }
                         </ul>
                         <br></br>
                     </div>
