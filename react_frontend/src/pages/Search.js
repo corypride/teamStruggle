@@ -83,6 +83,7 @@ function Search({user}) {
                                         return (
                                             <li>
                                                 <Button
+                                                    style={{backgroundColor: '#B22222'}}
                                                     key={watchlist.id}
                                                     onClick={() => handleRemoveClick(movie, watchlist)}
                                                     variant='contained'>{`REMOVE FROM ${watchlist.name}`}
