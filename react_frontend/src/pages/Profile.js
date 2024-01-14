@@ -6,6 +6,7 @@ import Watchlist from '../Components/Watchlist';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import Icon from "react-crud-icons";
+import { Grid } from '@mui/material';
 
 import "../Styles/react-crud-icons.css";
 
@@ -115,34 +116,36 @@ function Profile({ user }) {
                     {watchlists.length > 0 ? (
                         watchlists.map((watchlist) => (
                             <div>
-                                <div>
-                                    <Icon
-                                        name="edit"
-                                        tooltip="Edit"
-                                        theme="light"
-                                        size="medium"
-                                        onClick={() => setRenameWatchlistFieldRevealed((prevValue) => !prevValue)}
-                                    />
-                                </div>
-                                {renameWatchlistFieldRevealed && (
+                                <Grid container spacing={1}>
                                     <div>
-                                        <input
-                                            name={watchlist.name}
-                                            placeholder={`Rename ${watchlist.name}`}
-                                            value={renameWatchlistFields[watchlist.id]}
-                                            type="text"
-                                            onChange={(e) => handleRenameInputChange(watchlist.id, e.target.value)}
+                                        <Icon
+                                            name="edit"
+                                            tooltip="Edit"
+                                            theme="light"
+                                            size="medium"
+                                            onClick={() => setRenameWatchlistFieldRevealed((prevValue) => !prevValue)}
                                         />
-                                        <Button onClick={(e) => {
-                                            watchlist.name = renameWatchlistFields[watchlist.id];
-                                            handleRenameWatchlist(watchlist);
-                                        }
-                                        }>Submit</Button>
-                                        <Button onClick={ // TODO: add an "Are you sure?" popup here
-                                            () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
                                     </div>
-                                )}
-                                <Watchlist key={watchlist.id} watchlist={watchlist} />
+                                    {renameWatchlistFieldRevealed && (
+                                        <div>
+                                            <input
+                                                name={watchlist.name}
+                                                placeholder={`Rename ${watchlist.name}`}
+                                                value={renameWatchlistFields[watchlist.id]}
+                                                type="text"
+                                                onChange={(e) => handleRenameInputChange(watchlist.id, e.target.value)}
+                                            />
+                                            <Button onClick={(e) => {
+                                                watchlist.name = renameWatchlistFields[watchlist.id];
+                                                handleRenameWatchlist(watchlist);
+                                            }
+                                            }>Submit</Button>
+                                            <Button onClick={ // TODO: add an "Are you sure?" popup here
+                                                () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                        </div>
+                                    )}
+                                    <Watchlist key={watchlist.id} watchlist={watchlist} />
+                                </Grid>
 
                             </div>
                         ))
