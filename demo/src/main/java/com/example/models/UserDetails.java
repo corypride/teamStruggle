@@ -1,5 +1,6 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 public class UserDetails extends AbstractEntity{
 
     @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
+    @JsonManagedReference // Add this annotation to break the loop
     private List<Watchlist> watchlists = new ArrayList<>();
 
     @OneToOne

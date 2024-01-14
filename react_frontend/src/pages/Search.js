@@ -1,21 +1,49 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
-//currently prints selected movie title to console when "add to watchlist 
-//button" is clicked. will add info to database
 
-
-function Search() {
-    const [searchTerm, setSearchTerm] = useState(""); 
+function Search({user}) {
+    const [searchTerm, setSearchTerm] = useState("");
+    let [watchlists, setWatchlists] = useState([]); 
     let [results, setResults] = useState([]);
     let movies;
+    
+    const fetchWatchlists = async () => {
+        const response = await axios.get(`http://localhost:8080/watchlists/${user.userDetailsId}`);
+        watchlists = response.data;
+        setWatchlists(watchlists);
+    };
 
-    const handleClick = (aMovie) => {
-        console.log(`Added ${aMovie.title} to watchlist!`);
+    useEffect(() => {
+        fetchWatchlists();
+    }, [user.userDetailsId]);
+
+    const handleAddClick = async (aMovie, watchlist) => {
+        //save movie to database
+        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie);
+        const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
+
+        // Fetch watchlists again to update state (and get current list)
+        // The "results" variable (and the buttons it contains) are only updated
+        // when we call handleSearch(), so do it again right now...
+        // TODO: Figure out how to update the button without doing that
+        fetchWatchlists();
+        handleSearch();
     }
 
+    const handleRemoveClick = async (aMovie, watchlist) => {
+        const watchlistResponse = await axios.delete(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
+
+        // Fetch watchlists again to update state (and get current list)
+        // The "results" variable (and the buttons it contains) are only updated
+        // when we call handleSearch(), so do it again right now...
+        // TODO: Figure out how to update the button without doing that
+        fetchWatchlists();
+        handleSearch();
+    }
+    
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
         movies = response.data.slice(0, 10);
@@ -38,18 +66,53 @@ function Search() {
                         <p>
                             <span>Brief Synopsis: </span>{movie.overview}
                         </p>
-                        <p>
-                            <Button onClick={() => handleClick(movie)} variant='contained'>Add to Watchlist</Button>
-                        </p>
+                        <ul>
+                            {
+                                watchlists.map((watchlist) => {
+                                    let inList = false;
+
+                                    // Figure out if this movie is already in the list
+                                    for (const currentMovie of watchlist.moviesInList) {
+                                        if (currentMovie.id === movie.id) {
+                                            inList = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (inList) {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    key={watchlist.id}
+                                                    onClick={() => handleRemoveClick(movie, watchlist)}
+                                                    variant='contained'>{`REMOVE FROM ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    } else {
+                                        return (
+                                            <li>
+                                                <Button
+                                                    key={watchlist.id}
+                                                    onClick={() => handleAddClick(movie, watchlist)}
+                                                    variant='contained'>{`ADD TO ${watchlist.name}`}
+                                                </Button>
+                                                <br></br>
+                                            </li>
+                                        )
+                                    }
+                                })
+                            }
+                        </ul>
+                        <br></br>
                     </div>
                 )
             }));
         }
     }
     
-
     return (
-
         <div id="parent">
             <div className='search-container'>
                 <div className='input-button-container'>

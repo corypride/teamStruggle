@@ -6,22 +6,35 @@ import Register from './pages/Register';
 import Search from './pages/Search';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
+import Profile from './pages/Profile';
 import Home from './pages/home';
-import React, {useState} from "react";
-
-
+import React, { useState} from 'react';
 
 function App() {
+
+  let [user, setUser] = useState({
+    name: "",
+    username: "",
+    password: "",
+    userId: "",
+    userDetailsId: "1"
+  });
+
+  const userUpdate = (newUser) => {
+    setUser(newUser);
+  }
+
   return (
     <div className="App">
       {/*Switch tells router we want to route one tag at a time */}
       <Router>
-        <Navbar />
+        <Navbar user={user} onUserUpdate={userUpdate}/>
         <Routes>
-          <Route path="/" exact Component={Home}/>
-          <Route path="/login" exact Component={Login}/>
-          <Route path="/register" exact Component={Register}/>
-          <Route path="/search" exact Component={Search}/>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<Login onUserUpdate={userUpdate} />} />
+          <Route path="/register" element={<Register user={user} onUserUpdate={userUpdate}/>}/>
+          <Route path="/search" element={<Search user={user}/>}/>
+          <Route path="/profile" element={<Profile user={user}/>}/>
         </Routes>
         <Footer />
       </Router>
