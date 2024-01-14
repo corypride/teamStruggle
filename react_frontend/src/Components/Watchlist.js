@@ -5,7 +5,7 @@ export const Watchlist = ( {watchlist} ) => {
   return (
     <div>
         <div>
-            <h1>{watchlist.name}</h1>
+            <h3>{watchlist.name}</h3>
         <div>
         {watchlist.moviesInList.map( (movie) => (
             <MovieCard key={movie.id} movie={movie} watchlist={watchlist} />
