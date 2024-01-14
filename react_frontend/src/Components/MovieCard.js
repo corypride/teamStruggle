@@ -54,10 +54,9 @@ export const MovieCard = ({ movie , watchlist }) => {
                 )}
             </div>
             <div>
-                <h4>{movie.title}</h4>
-            </div>
-            <div>
+                <h4>{movie.title}
                 <DeleteButton movie={movie} watchlist = {watchlist}/>
+                </h4>
             </div>
         </div>
     )

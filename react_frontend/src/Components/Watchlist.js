@@ -8,9 +8,9 @@ export const Watchlist = ({ watchlist }) => {
       <div>
         <h3>{watchlist.name}</h3>
         <div>
-          <Grid container spacing={2}>
+          <Grid container spacing={6}>
             {watchlist.moviesInList.map((movie) => (
-              <Grid item xs={2}>
+              <Grid item xs={4}>
                 <MovieCard key={movie.id} movie={movie} watchlist={watchlist} />
               </Grid>
             ))}
