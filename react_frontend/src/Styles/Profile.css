@@ -1,14 +1,44 @@
 .profile {
-    justify-content: center;
+    justify-content: left;
+    padding-right: 30%;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    background-image: linear-gradient(79deg, #f0f1f1, #9db8af 48%, #589ba4);
 }
 
 .profile img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 50px;
-    width: 200px;
+    margin-bottom: 10px;
+    width: 150px;
     height: 200px;
+  }
+
+  .profile h1 {
+    justify-content: left;
+    font-size: 50px;
+    margin-bottom: 100px;
+    padding-right: 50%;
+    font-weight: bold;
+  }
+
+  .createNewWatchlist {
+    justify-content: left;
+  }
+
+  h2 {
+    font-weight: bold;
+    
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  h4{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
   }
