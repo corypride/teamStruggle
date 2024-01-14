@@ -9,6 +9,7 @@ import Footer from './Components/Footer';
 import Profile from './pages/Profile';
 import Home from './pages/home';
 import React, { useState} from 'react';
+import Recommend from './pages/Recommend';
 
 function App() {
 
@@ -20,8 +21,15 @@ function App() {
     userDetailsId: "1"
   });
 
+  let [movieRec, setMovieRec] = useState({
+    movieObj: ""
+  });
+
   const userUpdate = (newUser) => {
     setUser(newUser);
+  }
+  const movieObjUpdate = (newMovieObj) => {
+    setMovieRec(newMovieObj);
   }
 
   return (
@@ -34,7 +42,8 @@ function App() {
           <Route path="/login" element={<Login onUserUpdate={userUpdate} />} />
           <Route path="/register" element={<Register user={user} onUserUpdate={userUpdate}/>}/>
           <Route path="/search" element={<Search user={user}/>}/>
-          <Route path="/profile" element={<Profile user={user}/>}/>
+          <Route path="/profile" element={<Profile user={user} movieObjUpdate={movieObjUpdate} />}/>
+          <Route path="/recommend" element={<Recommend user={user} movieRec={movieRec} />}/>
         </Routes>
         <Footer />
       </Router>

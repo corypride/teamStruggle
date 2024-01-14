@@ -2,7 +2,8 @@ import React from 'react';
 import { MovieCard } from "./MovieCard";
 import { Grid } from '@mui/material';
 
-export const Watchlist = ({ watchlist }) => {
+export const Watchlist = ({ watchlist , movieObjUpdate}) => {
+  console.log('received in watchlist :', movieObjUpdate)
   return (
     <div>
       <div>
@@ -11,7 +12,7 @@ export const Watchlist = ({ watchlist }) => {
           <Grid container spacing={6}>
             {watchlist.moviesInList.map((movie) => (
               <Grid item xs={4}>
-                <MovieCard key={movie.id} movie={movie} watchlist={watchlist} />
+                <MovieCard key={movie.id} movie={movie} watchlist={watchlist} movieObjUpdate={movieObjUpdate} />
               </Grid>
             ))}
           </Grid>

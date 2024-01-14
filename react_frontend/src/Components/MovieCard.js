@@ -1,24 +1,55 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Icon from "react-crud-icons";
 import "../Styles/react-crud-icons.css";
 import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
+export const MovieCard = ({ movie, watchlist, movieObjUpdate}) => {
 
-export const MovieCard = ({ movie , watchlist }) => {
+    console.log('received in movieCard :', movieObjUpdate)
+    console.log('received movie in moviecard: ', movie)
+
+    let navigate = useNavigate();
 
     const [movies, setMovies] = useState([]);
+    const [recommendModalIsOpen, setRecommendModalIsOpen] = useState(false);
+
+    let [movieRec, setMovieRec] = useState({
+        movieObj: ""
+      });
+
 
     const DeleteButton = (movie, watchlistId) => (
         <Icon
-          name="delete"
-          tooltip="Delete"
-          theme="light"
-          size="medium"
-          onClick={() => handleDeleteMovie(movie, watchlist)}
+            name="delete"
+            tooltip="Delete"
+            theme="light"
+            size="medium"
+            onClick={() => handleDeleteMovie(movie, watchlist)}
         />
-      );
+    );
 
-      const handleDeleteMovie = async (movie, watchlist) => {
+    const RecommendationButton = (movie, watchlistId) => (
+        <Icon
+            name="sun"
+            tooltip="Find Similar Movies"
+            theme="light"
+            size="medium"
+            onClick={() => handleRecClick(movie)}
+        />
+    );
+
+    const handleRecClick = (movie) => {
+        console.log(movie);
+        console.log("print if activated")
+        console.log('received in handleRecClick', movieObjUpdate)
+        movieObjUpdate(movie.id)
+        console.log('sets MovieRec: ', movieRec)
+        navigate("/recommend");
+};
+
+    const handleDeleteMovie = async (movie, watchlist) => {
         try {
 
             //Not sure why movie is a weird structure, but the correct way to access id is movie.movie.id
@@ -55,7 +86,8 @@ export const MovieCard = ({ movie , watchlist }) => {
             </div>
             <div>
                 <h4>{movie.title}
-                <DeleteButton movie={movie} watchlist = {watchlist}/>
+                    <DeleteButton movie={movie} watchlist={watchlist} />
+                        <RecommendationButton onClick={() => handleRecClick(movie)}/>
                 </h4>
             </div>
         </div>

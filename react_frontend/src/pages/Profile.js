@@ -7,13 +7,16 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import Icon from "react-crud-icons";
 import { Grid } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import "../Styles/react-crud-icons.css";
 
 
 Modal.setAppElement('#root');
 
-function Profile({ user }) {
+function Profile({ user , movieObjUpdate  }) {
+
+    console.log('received :', movieObjUpdate);
 
     const [userDetailsId, setUserDetailsId] = useState(user.userDetailsId);
     const [watchlists, setWatchlists] = useState([]);
@@ -22,6 +25,9 @@ function Profile({ user }) {
     const [renameWatchlistFieldRevealed, setRenameWatchlistFieldRevealed] = useState(false);
     const [renameWatchlistFields, setRenameWatchlistFields] = useState({});
 
+    let [movieRec, setMovieRec] = useState({
+        movieObj: ""
+      });
 
     const fetchWatchlists = async () => {
         try {
@@ -140,11 +146,13 @@ function Profile({ user }) {
                                                 handleRenameWatchlist(watchlist);
                                             }
                                             }>Submit</Button>
-                                            <Button onClick={ // TODO: add an "Are you sure?" popup here
-                                                () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                            <Tooltip title="Warning: Deletion is final!">
+                                                <Button onClick={ // TODO: add an "Are you sure?" popup here
+                                                    () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
+                                            </Tooltip>
                                         </div>
                                     )}
-                                    <Watchlist key={watchlist.id} watchlist={watchlist} />
+                                    <Watchlist key={watchlist.id} watchlist={watchlist} movieObjUpdate={movieObjUpdate} />
                                 </Grid>
 
                             </div>
