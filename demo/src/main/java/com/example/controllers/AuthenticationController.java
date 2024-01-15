@@ -27,6 +27,7 @@ public class AuthenticationController {
     public User getUserFromSession(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
         if (userId == null) {
+
             return null;
         }
 

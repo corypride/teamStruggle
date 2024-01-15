@@ -1,14 +1,16 @@
 package com.example.models;
 
 import jakarta.persistence.*;
-import com.example.models.AbstractEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import java.lang.reflect.Array;
 
 @Entity
 public class User extends AbstractEntity {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
     private String username;
@@ -33,6 +35,14 @@ public class User extends AbstractEntity {
     public User(String username, String password) {
         this.username = username;
         this.pwHash = encoder.encode(password);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
