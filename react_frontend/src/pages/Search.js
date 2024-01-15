@@ -26,8 +26,8 @@ function Search({user}) {
         const movieResponse = await axios.post(`http://localhost:8080/movie`,aMovie,
         { withCredentials: true,
             headers: {
-                'Access-Control-Allow-Origin': '*', 
-                'Content-Type': 'application/json'
+                'Access-Control-Allow-Origin': 'localhost:3000', 
+                'Content-Type': 'text/plain'
             } 
         }); //need to change headers somehow?
         const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);

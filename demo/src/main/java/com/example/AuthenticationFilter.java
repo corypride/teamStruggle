@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.http.*;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class AuthenticationFilter implements HandlerInterceptor {
+public class AuthenticationFilter implements HandlerInterceptor, Ordered {
 
      //LaunchCode has this in their examples, but it is actually never used
 //     @Autowired
@@ -34,6 +35,12 @@ public class AuthenticationFilter implements HandlerInterceptor {
             }
         }
         return false;
+    }
+
+    @Override
+    public int getOrder() {
+        // Set the order to ensure lowest precedence
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
     @Override
