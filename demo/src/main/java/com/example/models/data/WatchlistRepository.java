@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface WatchlistRepository extends CrudRepository<Watchlist, Integer> {
 
-    List<Watchlist> findByUserDetailsId(Integer userDetailsId);
+    List<Watchlist> findByUserId(Integer userId);
 
 }

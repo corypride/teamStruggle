@@ -1,9 +1,13 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends AbstractEntity {
@@ -18,19 +22,11 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
-    @Valid
-    private UserDetails userDetails;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference // Add this annotation to break the loop
+    private List<Watchlist> watchlists = new ArrayList<>();
 
     public User() {}
-
-    public UserDetails getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
-    }
 
     public User(String username, String password) {
         this.username = username;

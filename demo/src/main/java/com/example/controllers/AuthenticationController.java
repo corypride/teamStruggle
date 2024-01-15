@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +67,8 @@ public class AuthenticationController {
         // TODO: The newUser.userDetails returned in the response is NULL, how does that end up populated??
         // We will need that on the front end to get the watchlists etc unless newUser.id is the thing to use
         // instead (which is populated)?
-        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
+        User newUser = new User(registerFormDTO.getUsername(),
+                                registerFormDTO.getPassword());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
