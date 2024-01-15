@@ -8,17 +8,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
@@ -43,84 +42,71 @@ public class AuthenticationController {
     private static void setUserInSession(HttpSession session, User user) {
         session.setAttribute(userSessionKey, user.getId());
     }
-    @GetMapping("/register")
-    public String displayRegistrationForm(Model model) {
-        model.addAttribute(new RegisterFormDTO());
-        model.addAttribute("title", "Register");
-        return "register";
-    }
-    @PostMapping("/register")
-    public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
-                                          Errors errors, HttpServletRequest request,
-                                          Model model) {
 
+    @PostMapping("/register")
+    @ResponseBody
+    public ResponseEntity<Object> processRegistrationForm(@RequestBody @Valid RegisterFormDTO registerFormDTO,
+                                                                   Errors errors, HttpServletRequest request) {
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Register");
-            return "register";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
         Optional<User> existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
 
-        if (existingUser != null) {
+        if (existingUser.isPresent()) {
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
-            model.addAttribute("title", "Register");
-            return "register";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
         String password = registerFormDTO.getPassword();
         String verifyPassword = registerFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
             errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-            model.addAttribute("title", "Register");
-            return "register";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
+        // TODO: The newUser.userDetails returned in the response is NULL, how does that end up populated??
+        // We will need that on the front end to get the watchlists etc unless newUser.id is the thing to use
+        // instead (which is populated)?
         User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
         userRepository.save(newUser);
-//        System.out.println("I am here");
         setUserInSession(request.getSession(), newUser);
 
-        return "redirect:";
+        return ResponseEntity.ok(newUser);
     }
-    @GetMapping("/login")
-    public String displayLoginForm(Model model) {
-        model.addAttribute(new LoginFormDTO());
-        model.addAttribute("title", "Log In");
-        return "login";
-    }
+
     @PostMapping("/login")
-    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
-                                   Errors errors, HttpServletRequest request,
-                                   Model model) {
+    @ResponseBody
+    public ResponseEntity<Object> processLoginForm(@RequestBody @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors, HttpServletRequest request) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Log In");
-            return "login";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        User theUser = userRepository.findByUsername(loginFormDTO.getUsername()).get();
+        Optional<User> theUser = userRepository.findByUsername(loginFormDTO.getUsername());
 
-        if (theUser == null) {
+        if (theUser.isEmpty()) {
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
-            model.addAttribute("title", "Log In");
-            return "login";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
         String password = loginFormDTO.getPassword();
 
-        if (!theUser.isMatchingPassword(password)) {
+        if (!theUser.get().isMatchingPassword(password)) {
             errors.rejectValue("password", "password.invalid", "Invalid password");
-            model.addAttribute("title", "Log In");
-            return "login";
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        setUserInSession(request.getSession(), theUser);
+        setUserInSession(request.getSession(), theUser.get());
 
-        return "redirect:";
+        return ResponseEntity.ok(theUser.get());
     }
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
-        request.getSession().invalidate();
-        return "redirect:/login";
-    }
+
+// TODO: Can we just logout on the front end by clearing the cookie/session in axios?
+//    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request){
+//        request.getSession().invalidate();
+//        return "redirect:/login";
+//    }
 }
