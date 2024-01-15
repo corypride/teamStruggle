@@ -4,10 +4,8 @@ import com.example.data.UserRepository;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.models.Movie;
 import com.example.models.User;
-import com.example.models.UserDetails;
 import com.example.models.Watchlist;
 import com.example.models.data.MovieRepository;
-import com.example.models.data.UserDetailsRepository;
 import com.example.models.data.WatchlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,7 +27,7 @@ public class WatchlistController {
     MovieRepository movieRepository;
 
     @Autowired
-    UserDetailsRepository userDetailsRepository;
+    UserRepository userRepository;
 
     @GetMapping("watchlist/{id}")
     @ResponseBody
@@ -51,10 +48,10 @@ public class WatchlistController {
 
 
     //Returns all watchlists associated with a userDetailsId
-    @GetMapping("watchlists/{userDetailsId}")
+    @GetMapping("watchlists/{userId}")
     @ResponseBody
-    public ResponseEntity<List<Watchlist>> getAllUserWatchlists(@PathVariable Integer userDetailsId) {
-        List<Watchlist> watchlists = watchlistRepository.findByUserDetailsId(userDetailsId);
+    public ResponseEntity<List<Watchlist>> getAllUserWatchlists(@PathVariable Integer userId) {
+        List<Watchlist> watchlists = watchlistRepository.findByUserId(userId);
 
         if (watchlists.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -63,14 +60,14 @@ public class WatchlistController {
         }
     }
 
-    @PostMapping("watchlist/{userDetailsId}/{watchlistName}")
-    public ResponseEntity<Watchlist> createNewWatchlist(@PathVariable Integer userDetailsId,
+    @PostMapping("watchlist/{userId}/{watchlistName}")
+    public ResponseEntity<Watchlist> createNewWatchlist(@PathVariable Integer userId,
                                                         @PathVariable String watchlistName){
         //If user exists, associate new watchlist to existing user
-        UserDetails existingUserDetails = userDetailsRepository.findById(userDetailsId)
-                .orElseThrow(() -> new ResourceNotFoundException("cannot find userDetails with given id: " + userDetailsId));
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("cannot find user with given id: " + userId));
 
-        Watchlist newWatchlist = new Watchlist("custom", watchlistName, new ArrayList<Movie>(), existingUserDetails);
+        Watchlist newWatchlist = new Watchlist("custom", watchlistName, new ArrayList<Movie>(), existingUser);
         watchlistRepository.save(newWatchlist);
         return ResponseEntity.ok(newWatchlist);
     }
@@ -92,8 +89,8 @@ public class WatchlistController {
             if (watchlistDetails.getMoviesInList() != null) {
                 existingWatchlist.setMoviesInList(watchlistDetails.getMoviesInList());
             }
-            if (watchlistDetails.getUserDetails() != null) {
-                existingWatchlist.setUserDetails(watchlistDetails.getUserDetails());
+            if (watchlistDetails.getUser() != null) {
+                existingWatchlist.setUser(watchlistDetails.getUser());
             }
 
             watchlistRepository.save(existingWatchlist);
