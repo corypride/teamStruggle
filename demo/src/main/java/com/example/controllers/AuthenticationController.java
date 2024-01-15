@@ -92,7 +92,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> processLoginForm(@RequestBody @Valid LoginFormDTO loginFormDTO,
-                                   Errors errors, HttpServletRequest request) {
+                                   Errors errors, HttpServletRequest request, HttpServletResponse response) {
 
         if (errors.hasErrors()) {
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
@@ -113,6 +113,7 @@ public class AuthenticationController {
         }
 
         setUserInSession(request.getSession(), theUser.get());
+        response.addCookie(new Cookie("sessionId", request.getSession().getId()));
 
         return ResponseEntity.ok(theUser.get());
     }
