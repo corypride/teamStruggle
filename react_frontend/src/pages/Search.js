@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 
 axios.defaults.withCredentials = true;
 
-
 function Search({user}) {
     const [searchTerm, setSearchTerm] = useState("");
     let [watchlists, setWatchlists] = useState([]); 
@@ -24,7 +23,13 @@ function Search({user}) {
 
     const handleAddClick = async (aMovie, watchlist) => {
         //save movie to database
-        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie, {withCredentials: true});
+        const movieResponse = await axios.post(`http://localhost:8080/movie`,aMovie,
+        { withCredentials: true,
+            headers: {
+                'Access-Control-Allow-Origin': '*', 
+                'Content-Type': 'application/json'
+            } 
+        }); //need to change headers somehow?
         const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
 
         // Fetch watchlists again to update state (and get current list)
