@@ -3,6 +3,9 @@ import '../Styles/Register.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
+
+
 function Register({user, onUserUpdate}) {
 
     let navigate = useNavigate();
@@ -19,6 +22,7 @@ function Register({user, onUserUpdate}) {
         const response = await axios.post("http://localhost:8080/register", newUserForm);
         // Should be the actual user data from backend below
         onUserUpdate(response.data);
+        console.log(response.data)
         navigate("/profile");
     };
 
@@ -47,7 +51,7 @@ function Register({user, onUserUpdate}) {
             <input value={username} onChange={(e) => handleNewUserForm(e)} placeholder='Enter username' name='username' type='username' id='username'/>
             <label htmlFor='password'>Password</label>
             <input value={password} onChange={(e) => handleNewUserForm(e)} placeholder='Enter password' name='password' type='password' id='password'/>
-            <label htmlFor='verifyPassword'>Full Name</label>
+            <label htmlFor='verifyPassword'>Verify Password</label>
             <input value={verifyPassword} onChange={(e) => handleNewUserForm(e)} placeholder='Verify password' name='verifyPassword' type='text' id='verifyPassword'/>
             <button>Register</button>
         </form> 

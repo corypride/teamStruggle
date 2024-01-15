@@ -3,6 +3,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
+axios.defaults.withCredentials = true;
+
 
 function Search({user}) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -11,18 +13,18 @@ function Search({user}) {
     let movies;
     
     const fetchWatchlists = async () => {
-        const response = await axios.get(`http://localhost:8080/watchlists/${user.userDetailsId}`);
+        const response = await axios.get(`http://localhost:8080/watchlists/${user.id}`);
         watchlists = response.data;
         setWatchlists(watchlists);
     };
 
     useEffect(() => {
         fetchWatchlists();
-    }, [user.userDetailsId]);
+    }, [user.id]);
 
     const handleAddClick = async (aMovie, watchlist) => {
         //save movie to database
-        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie);
+        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie, {withCredentials: true});
         const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
 
         // Fetch watchlists again to update state (and get current list)

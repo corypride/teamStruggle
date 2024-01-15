@@ -10,12 +10,14 @@ import { Grid } from '@mui/material';
 
 import "../Styles/react-crud-icons.css";
 
+axios.defaults.withCredentials = true;
 
 Modal.setAppElement('#root');
 
 function Profile({ user }) {
 
-    const [userDetailsId, setUserDetailsId] = useState(user.userDetailsId);
+    console.log(user.id)
+    const [userDetailsId, setUserDetailsId] = useState(user.id);
     const [watchlists, setWatchlists] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newWatchlistName, setNewWatchlistName] = useState('');
@@ -28,9 +30,9 @@ function Profile({ user }) {
 
     const fetchWatchlists = async () => {
         try {
-            // Fetch watchlists based on userDetailsId
-            const watchlistsResponse = await fetch(`http://localhost:8080/watchlists/${user.userDetailsId}`);
-            const watchlistData = await watchlistsResponse.json();
+            // Fetch watchlists based on userId
+            const watchlistsResponse = await axios.get(`http://localhost:8080/watchlists/${user.id}`);
+            const watchlistData = watchlistsResponse.data;
             setWatchlists(watchlistData);
         } catch (error) {
             console.error('Error fetching watchlist:', error);

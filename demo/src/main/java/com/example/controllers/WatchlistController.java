@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "localhost:3000")
 @RestController
 public class WatchlistController {
 

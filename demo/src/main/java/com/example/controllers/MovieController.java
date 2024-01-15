@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "localhost:3000")
 @RestController
 public class MovieController {
 

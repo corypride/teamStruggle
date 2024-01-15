@@ -15,6 +15,7 @@ function App() {
   let [user, setUser] = useState({
     username: "",
     password: "",
+    userId: ""
   });
 
   const userUpdate = (newUser) => {

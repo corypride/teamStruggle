@@ -48,6 +48,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
         }
 
         HttpSession session = request.getSession();
+        System.out.println(session.getId());
         User user = authenticationController.getUserFromSession(session);
 
         // The user is logged in
