@@ -1,11 +1,14 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import com.example.models.AbstractEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends AbstractEntity {
@@ -16,19 +19,12 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
-    @Valid
-    private UserDetails userDetails;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference // Add this annotation to break the loop
+    private List<Watchlist> watchlists = new ArrayList<>();
 
     public User() {}
 
-    public UserDetails getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
-    }
 
     public User(String username, String password) {
         this.username = username;
@@ -48,4 +44,23 @@ public class User extends AbstractEntity {
         return encoder.matches(password, pwHash);
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPwHash() {
+        return pwHash;
+    }
+
+    public void setPwHash(String password) {
+        this.pwHash = encoder.encode(password);
+    }
+
+    public List<Watchlist> getWatchlists() {
+        return watchlists;
+    }
+
+    public void setWatchlists(List<Watchlist> watchlists) {
+        this.watchlists = watchlists;
+    }
 }

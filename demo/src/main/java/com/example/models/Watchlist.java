@@ -23,8 +23,8 @@ public class Watchlist {
 
     @ManyToOne
     @JsonBackReference // Add this annotation to break the loop
-    @JoinColumn(name = "user_details_id", nullable = false)
-    private UserDetails userDetails;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public void addMovieToWatchlist(Movie movie) {
         moviesInList.add(movie);
@@ -35,11 +35,11 @@ public class Watchlist {
     }
 
 
-    public Watchlist(String listType, String name, List<Movie> moviesInList, UserDetails userDetails) {
+    public Watchlist(String listType, String name, List<Movie> moviesInList, User user) {
         this.listType = listType;
         this.name = name;
         this.moviesInList = moviesInList;
-        this.userDetails = userDetails;
+        this.user = user;
     }
 
     public Watchlist() {}
@@ -72,11 +72,11 @@ public class Watchlist {
         this.moviesInList = moviesInList;
     }
 
-    public UserDetails getUserDetails() {
-        return userDetails;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

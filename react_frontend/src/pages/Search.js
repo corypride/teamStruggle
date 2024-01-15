@@ -47,6 +47,7 @@ function Search({user}) {
     const handleSearch = async () => {
         const response = await axios.get(`http://localhost:8080/movie/search?searchTerm=${searchTerm}`);
         movies = response.data.slice(0, 10);
+        console.log(movies)
 
         if (movies.length === 0) {
             setResults(<p>{`No results for "${searchTerm}"`}</p>)
