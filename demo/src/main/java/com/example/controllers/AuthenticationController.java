@@ -27,17 +27,25 @@ public class AuthenticationController {
     public User getUserFromSession(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
         if (userId == null) {
-
             return null;
         }
 
-        Optional<User> user = userRepository.findById(userId);
+        // Optional<User> user = userRepository.findById(userId);
+        // For some reason findById() isn't working with the valid
+        // looking user ID (matches database). search all users
+        // manually and compare ID
 
-        if (user.isEmpty()) {
-            return null;
+        for (User currentUser : userRepository.findAll()) {
+            if (currentUser.getId() == userId) {
+                return currentUser;
+            }
         }
-
-        return user.get();
+        return null;
+//        if (user.isEmpty()) {
+//            return null;
+//        }
+//
+//        return user.get();
     }
 
     private static void setUserInSession(HttpSession session, User user) {

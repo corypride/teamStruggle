@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
@@ -55,7 +56,11 @@ public class AuthenticationFilter implements HandlerInterceptor {
         }
 
         // The user is NOT logged in
-        response.sendRedirect("/login");
+        // Let frontend handle redirect stuff
+        // response.sendRedirect("/login");
+
+        // Send UNAUTHORIZED and message to let frontend know why the request failed
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not found for this session");
         return false;
     }
 }

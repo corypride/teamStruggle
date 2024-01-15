@@ -8,9 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Entity
 public class User extends AbstractEntity {
 
-    @Id
-    @GeneratedValue
-    private int id;
+// Getting error about clashing IDs (maybe abstractentity provides
+// one and User? Removing it seems to work and get the right ID
+//    @Id
+//    @GeneratedValue
+//    private int id;
 
     @NotNull
     private String username;
@@ -37,13 +39,13 @@ public class User extends AbstractEntity {
         this.pwHash = encoder.encode(password);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
     public String getUsername() {
         return username;
