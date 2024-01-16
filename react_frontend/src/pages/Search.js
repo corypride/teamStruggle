@@ -14,6 +14,12 @@ function Search({user}) {
     const fetchWatchlists = async () => {
         const response = await axios.get(`http://localhost:8080/watchlists/${user.id}`);
         watchlists = response.data;
+
+        // If the user has no watchlist, response.data will be empty
+        // We need watchlist to always be an array, so make an empty array
+        if (!Array.isArray(watchlists)) {
+            watchlists = [];
+        };
         setWatchlists(watchlists);
     };
 
@@ -22,10 +28,10 @@ function Search({user}) {
     }, [user.id]);
 
     const handleAddClick = async (aMovie, watchlist) => {
-        //save movie to database
+        // Save movie to database
         const movieResponse = await axios.post(`http://localhost:8080/movie`,aMovie,
         { withCredentials: true
-        }); //need to change headers somehow?
+        }); // Need to change headers somehow?
         const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
 
         // Fetch watchlists again to update state (and get current list)
