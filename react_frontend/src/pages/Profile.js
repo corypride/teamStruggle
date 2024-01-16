@@ -7,7 +7,6 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import Icon from "react-crud-icons";
 import { Grid } from '@mui/material';
-
 import "../Styles/react-crud-icons.css";
 
 axios.defaults.withCredentials = true;
@@ -23,6 +22,10 @@ function Profile({ user }) {
     const [newWatchlistName, setNewWatchlistName] = useState('');
     const [renameWatchlistFieldRevealed, setRenameWatchlistFieldRevealed] = useState(false);
     const [renameWatchlistFields, setRenameWatchlistFields] = useState({});
+    const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
     const handleWatchlistUpdate = () => {
         fetchWatchlists();
@@ -81,6 +84,21 @@ function Profile({ user }) {
         }
 
     }
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+          try {
+            const response = await axios.get('http://localhost:8080/friendlist');
+            setFriends(response.data);
+          } catch (error) {
+            setError(error.message || 'An error occurred while fetching users.');
+          } 
+        };
+    
+        fetchFriends();
+      }, []);
+
+    
     const handleRenameWatchlist = async (watchlist) => {
         try {
             // Make a request to rename an existing watchlist 
@@ -173,6 +191,14 @@ function Profile({ user }) {
                 <button onClick={handleAddFriend}>Add friend</button>
 
                 <h2>Friends</h2>
+                 <ul>
+  {friends.map((friend) => (
+    <li key={friend.id}>
+      {friend.firstUser.username} and {friend.secondUser.username}
+    </li>
+  ))}
+</ul>
+  
             </div>
         </div>
     )

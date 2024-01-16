@@ -6,6 +6,7 @@ import com.example.models.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FriendRepository extends CrudRepository<Friend,Integer> {

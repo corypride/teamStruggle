@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -124,4 +125,11 @@ public class AuthenticationController {
 //        request.getSession().invalidate();
 //        return "redirect:/login";
 //    }
+
+    //using this to compile a list of users
+
+    @GetMapping("/allusers")
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 }

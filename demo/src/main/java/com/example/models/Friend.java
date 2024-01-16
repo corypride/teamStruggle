@@ -12,14 +12,11 @@ public class Friend {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "created_date")
-    private Date createdDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "first_user_id", referencedColumnName = "id")
     private User firstUser;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "second_user_id", referencedColumnName = "id")
     private User secondUser;
 
@@ -32,14 +29,6 @@ public class Friend {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public User getFirstUser() {

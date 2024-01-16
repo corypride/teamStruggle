@@ -24,7 +24,7 @@ function Navbar({user, onUserUpdate}) {
         <div className='rightSide'>
             <Link to='/profile'> My Profile </Link>
             <Link to='/search'> Search </Link>
-            <Link to='/usersearch'> Users </Link>
+            <Link to='/users'> Users </Link>
             <Link to='/' onClick={handleLogoutClick}> Logout </Link>
         </div>
       </div>
@@ -35,7 +35,7 @@ function Navbar({user, onUserUpdate}) {
             <Link to='/login'> Login </Link>
             <Link to='/register'> Register </Link>
             <Link to='/search'> Search </Link>
-            <Link to='/usersearch'> Users </Link>
+            <Link to='/users'> Users </Link>
         </div>
       </div>
     )}
