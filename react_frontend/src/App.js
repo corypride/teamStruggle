@@ -13,11 +13,9 @@ import React, { useState} from 'react';
 function App() {
 
   let [user, setUser] = useState({
-    name: "",
     username: "",
-    password: "",
-    userId: "",
-    userDetailsId: "1"
+    pwHash: "",
+    id: ""
   });
 
   const userUpdate = (newUser) => {

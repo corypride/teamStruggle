@@ -3,23 +3,26 @@ import '../Styles/Register.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
+
+
 function Register({user, onUserUpdate}) {
 
     let navigate = useNavigate();
 
-    const [newUser, setNewUser] = useState({
-      name: "",
+    const [newUserForm, setNewUserForm] = useState({
       username: "",
       password: "",
-      userId: "",
-      userDetailsId: "1",
+      verifyPassword: "",
     });
-    const {name, username, password} = newUser;
+    const {username, password, verifyPassword} = newUserForm;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // await axios.post("http://localhost:8080/register", user);
-        onUserUpdate(newUser);
+        const response = await axios.post("http://localhost:8080/register", newUserForm);
+        // Should be the actual user data from backend below
+        onUserUpdate(response.data);
+        console.log(response.data)
         navigate("/profile");
     };
 
@@ -32,8 +35,8 @@ function Register({user, onUserUpdate}) {
     applies that to all parameters in user
     */
 
-    const handleNewUser = (e) => {
-      setNewUser({...newUser, [e.target.name] : e.target.value});
+    const handleNewUserForm = (e) => {
+      setNewUserForm({...newUserForm, [e.target.name] : e.target.value});
     }
 
   return (
@@ -44,12 +47,12 @@ function Register({user, onUserUpdate}) {
     ie name="username" value="john"*/
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
-            <label htmlFor='name'>Full Name</label>
-            <input value={name} onChange={(e) => handleNewUser(e)} placeholder='Full Name' name='name' type='text' id='name'/>
             <label htmlFor='username'>Username</label>
-            <input value={username} onChange={(e) => handleNewUser(e)} placeholder='Enter username' name='username' type='username' id='username'/>
+            <input value={username} onChange={(e) => handleNewUserForm(e)} placeholder='Enter username' name='username' type='username' id='username'/>
             <label htmlFor='password'>Password</label>
-            <input value={password} onChange={(e) => handleNewUser(e)} placeholder='Enter password' name='password' type='password' id='password'/>
+            <input value={password} onChange={(e) => handleNewUserForm(e)} placeholder='Enter password' name='password' type='password' id='password'/>
+            <label htmlFor='verifyPassword'>Verify Password</label>
+            <input value={verifyPassword} onChange={(e) => handleNewUserForm(e)} placeholder='Verify password' name='verifyPassword' type='text' id='verifyPassword'/>
             <button>Register</button>
         </form> 
     </div>

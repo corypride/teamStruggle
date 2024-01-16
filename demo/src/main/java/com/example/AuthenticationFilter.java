@@ -7,13 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.http.*;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class AuthenticationFilter implements HandlerInterceptor {
+public class AuthenticationFilter implements HandlerInterceptor, Ordered {
 
      //LaunchCode has this in their examples, but it is actually never used
 //     @Autowired
@@ -23,9 +25,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     AuthenticationController authenticationController;
 
     // Allow certain pages and static resources to be seen by the public (not logged in)
-    private static final List<String> whitelist = Arrays.asList("/api",
-            "/movie", "/watchlist","/watchlists", "/recommendation",
-            "/welcome", "/register", "/login", "/css", "/images");
+    private static final List<String> whitelist = Arrays.asList("/register", "/login");
 
     // Check all pages and static resources against blacklist
     private static boolean isWhitelisted(String path) {
@@ -35,6 +35,12 @@ public class AuthenticationFilter implements HandlerInterceptor {
             }
         }
         return false;
+    }
+
+    @Override
+    public int getOrder() {
+        // Set the order to ensure lowest precedence
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
     @Override
@@ -49,6 +55,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
         }
 
         HttpSession session = request.getSession();
+        System.out.println(session.getId());
         User user = authenticationController.getUserFromSession(session);
 
         // The user is logged in
@@ -57,7 +64,11 @@ public class AuthenticationFilter implements HandlerInterceptor {
         }
 
         // The user is NOT logged in
-        response.sendRedirect("/login");
+        // Let frontend handle redirect stuff
+        // response.sendRedirect("/login");
+
+        // Send UNAUTHORIZED and message to let frontend know why the request failed
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not found for this session");
         return false;
     }
 }

@@ -1,32 +1,31 @@
 import React, {useState} from 'react';
 import '../Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from "axios";
 
 
 function Login({onUserUpdate}) {
 
     //newUser represents current form fields. handleUser updates newUser. handleSubmit sets global user via onUserUpdate
-    const [newUser, setNewUser] = useState({
-        name: "",
+    const [userLoginForm, setUserLoginForm] = useState({
         username: "",
         password: "",
-        userId: "",
-        userDetailsId: "1"
       });
 
-    const {username, password} = newUser;
+    const {username, password} = userLoginForm;
 
     let navigate = useNavigate();
 
-    const handleUser = (e) => {
-        setNewUser({...newUser, [e.target.name] : e.target.value});
+    const handleUserLoginForm = (e) => {
+        setUserLoginForm({...userLoginForm, [e.target.name] : e.target.value});
     }
 
     //TODO: only call onUserUpdate once backend authenticates user
     const handleSubmit = async(e) => {
         e.preventDefault();
-        onUserUpdate(newUser);
+        const response = await axios.post("http://localhost:8080/login", userLoginForm);
+        // Should be the actual user data from backend below
+        onUserUpdate(response.data);
         navigate("/profile");
     }
     
@@ -35,11 +34,11 @@ function Login({onUserUpdate}) {
             <form className='login-form' onSubmit={handleSubmit}>
                 <label htmlFor='username'>Username</label>
                 <input 
-                    value={username} 
-                    onChange={(e) => handleUser(e)} 
-                    placeholder='Enter username' 
-                    name='username' 
-                    type='username' 
+                    value={username}
+                    onChange={(e) => handleUserLoginForm(e)}
+                    placeholder='Enter username'
+                    name='username'
+                    type='username'
                     id='username'
                     autoComplete='off'
                 />
@@ -47,10 +46,11 @@ function Login({onUserUpdate}) {
                 <label htmlFor='password'>Password</label>
                 <input 
                     value={password} 
-                    onChange={(e) => handleUser(e)}                    placeholder='Enter password' 
-                    name='password' 
-                    type='password' 
-                    id='password' 
+                    onChange={(e) => handleUserLoginForm(e)}
+                    placeholder='Enter password'
+                    name='password'
+                    type='password'
+                    id='password'
                 />
                 <button>Login</button>
             </form> 
