@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Profile from './pages/Profile';
 import Home from './pages/home';
+import MoviePage from './pages/MoviePage';
 import React, { useState} from 'react';
 import UserSearch from './pages/UserSearch';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/search" element={<Search user={user}/>}/>
           <Route path="/usersearch" element={<UserSearch user={user}/>}/>
           <Route path="/profile" element={<Profile user={user}/>}/>
+          <Route path="/movie" element={<MoviePage />}/>
         </Routes>
         <Footer />
       </Router>
