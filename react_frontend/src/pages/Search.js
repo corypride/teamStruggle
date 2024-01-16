@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -68,13 +69,9 @@ function Search({user}) {
                             <img src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`} alt=""></img>
                         </p>
                         <p>
-                            <span>Title: </span>{movie.title}
-                        </p>
-                        <p>
-                            <span>Year Released: </span>{movie.release_date}
-                        </p>
-                        <p>
-                            <span>Brief Synopsis: </span>{movie.overview}
+                            <span>
+                                <Link to='/movie' state={movie}>{movie.title}</Link>
+                            </span>
                         </p>
                         <ul>
                             {
