@@ -34,8 +34,6 @@ function Navbar({user, onUserUpdate}) {
             <Link to='/'> Home </Link>
             <Link to='/login'> Login </Link>
             <Link to='/register'> Register </Link>
-            <Link to='/search'> Search </Link>
-            <Link to='/usersearch'> Users </Link>
         </div>
       </div>
     )}

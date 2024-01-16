@@ -48,11 +48,11 @@ function Register({user, onUserUpdate}) {
     <div className='form-container'>
         <form className='login-form' onSubmit={handleSubmit}>
             <label htmlFor='username'>Username</label>
-            <input value={username} onChange={(e) => handleNewUserForm(e)} placeholder='Enter username' name='username' type='username' id='username'/>
+            <input value={username} onChange={(e) => handleNewUserForm(e)} placeholder='Enter username' name='username' type='username' id='username' autoComplete='off'/>
             <label htmlFor='password'>Password</label>
             <input value={password} onChange={(e) => handleNewUserForm(e)} placeholder='Enter password' name='password' type='password' id='password'/>
             <label htmlFor='verifyPassword'>Verify Password</label>
-            <input value={verifyPassword} onChange={(e) => handleNewUserForm(e)} placeholder='Verify password' name='verifyPassword' type='text' id='verifyPassword'/>
+            <input value={verifyPassword} onChange={(e) => handleNewUserForm(e)} placeholder='Verify password' name='verifyPassword' type='password' id='verifyPassword'/>
             <button>Register</button>
         </form> 
     </div>
