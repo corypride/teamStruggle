@@ -2,12 +2,7 @@ import React from 'react';
 import { MovieCard } from "./MovieCard";
 import { Grid } from '@mui/material';
 
-export const Watchlist = ({ watchlist , handleWatchlistUpdate, movieObjUpdate}) => {
-  console.log('received in watchlist :', movieObjUpdate)
-
-  let [movieRec, setMovieRec] = useState({
-    movieObj: ""
-  });
+export const Watchlist = ({ watchlist , handleWatchlistUpdate}) => {
 
   return (
     <div>
@@ -17,7 +12,7 @@ export const Watchlist = ({ watchlist , handleWatchlistUpdate, movieObjUpdate}) 
           <Grid container spacing={6}>
             {watchlist.moviesInList.map((movie) => (
               <Grid item xs={4}>
-                <MovieCard key={movie.id} movie={movie} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} movieObjUpdate={movieObjUpdate} />
+                <MovieCard key={movie.id} movie={movie} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} />
               </Grid>
             ))}
           </Grid>
