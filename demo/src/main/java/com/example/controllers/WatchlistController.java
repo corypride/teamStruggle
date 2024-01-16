@@ -119,6 +119,7 @@ public class WatchlistController {
         watchlistRepository.save(updateWatchlist);
 
         return ResponseEntity.ok("Watchlist updated successfully!");
+
     }
 
     //this removes a movie from a watchlist
