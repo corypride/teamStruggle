@@ -168,11 +168,8 @@ function Profile({ user }) {
                         <h3>No Watchlists Found!</h3>
                     )}
                 </ul>
-
-                
-                <button onClick={handleAddFriend}>Add friend</button>
-
                 <h2>Friends</h2>
+                <Button onClick={handleAddFriend}>Add friend</Button>
             </div>
         </div>
     )
