@@ -159,7 +159,7 @@ function Profile({ user }) {
                                                 () => handleDeleteWatchlist(watchlist.id)} > Delete Watchlist</Button>
                                         </div>
                                     )}
-                                    <Watchlist key={watchlist.id} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} />
+                                    <Watchlist key={watchlist.id} watchlist={watchlist} user = {user} handleWatchlistUpdate={handleWatchlistUpdate} />
                                 </Grid>
 
                             </div>
