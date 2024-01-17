@@ -2,7 +2,8 @@ package com.example.models;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "friends")
@@ -14,13 +15,17 @@ public class Friend {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "first_user_id", referencedColumnName = "id")
-    private User firstUser;
+    private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "second_user_id", referencedColumnName = "id")
-    private User secondUser;
+    @ManyToMany(mappedBy = "friends")
+    private final List<User> users = new ArrayList<>();
 
     public Friend() {
+    }
+
+    public Friend(Integer id, User user){
+        this.id = id;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -31,19 +36,12 @@ public class Friend {
         this.id = id;
     }
 
-    public User getFirstUser() {
-        return firstUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setFirstUser(User firstUser) {
-        this.firstUser = firstUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public User getSecondUser() {
-        return secondUser;
-    }
-
-    public void setSecondUser(User secondUser) {
-        this.secondUser = secondUser;
-    }
 }

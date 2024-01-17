@@ -6,14 +6,16 @@ import com.example.models.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-
 @Repository
 public interface FriendRepository extends CrudRepository<Friend,Integer> {
 
-    boolean existsByFirstUserAndSecondUser(User first,User second);
+    /*boolean existsByFirstUserAndSecondUser(User first,User second);*/
 
     List<Friend> findByFirstUser(User user);
-    List<Friend> findBySecondUser(User user);
+   /* List<Friend> findBySecondUser(User user);*/
+
+  /* List<Friend> findAllByFirstUser(User first);
+    List<Friend> findAllBySecondUser(User second);
+    Friend findByFirstUserAndSecondUser(User first, User second);*/
 
 }

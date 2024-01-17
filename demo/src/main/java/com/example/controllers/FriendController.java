@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,38 +24,18 @@ public class FriendController {
     @Autowired
     private FriendRepository friendRepository;
 
-    @GetMapping("/usersearch")
-    public ResponseEntity<String> searchUser(@RequestParam String username) {
-
-        Optional<User> user = userRepository.findByUsername(username);
-
-        return ResponseEntity.ok(username);
-    }
-
     @PostMapping("/addfriend")
-    ResponseEntity<String> addFriend(@RequestParam("friendId") String friendId) {
+    ResponseEntity<String> addFriend(@PathVariable String username) {
         // Check if users exist
-
-        User firstUser = userRepository.findByUsername(friendId).orElseThrow(() -> new RuntimeException("Sender not found"));
-        User secondUser = userRepository.findByUsername(friendId).orElseThrow(() -> new RuntimeException("Receiver not found"));
-
 
         Friend friend = new Friend();
 
-        if( !(friendRepository.existsByFirstUserAndSecondUser(firstUser,secondUser)) ){
-        friend.setFirstUser(firstUser);
-        friend.setSecondUser(secondUser);
+        //
 
-        friendRepository.save(friend); }
+        friendRepository.save(friend);
 
         return ResponseEntity.ok("Friend added successfully");
     }
-
-   /* @GetMapping("/friendlist")
-    public ResponseEntity<List<Friend>> listFriends() {
-        List<Friend> friends = (List<Friend>) friendRepository.findAll();
-        return ResponseEntity.ok(friends);
-    }*/
 
     @GetMapping("/friendlist")
     public List<Friend> getAllFriends() {

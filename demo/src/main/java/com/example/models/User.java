@@ -23,6 +23,9 @@ public class User extends AbstractEntity {
     @JsonManagedReference // Add this annotation to break the loop
     private List<Watchlist> watchlists = new ArrayList<>();
 
+    @ManyToMany
+    private final List<Friend> friends = new ArrayList<>();
+
     public User() {}
 
 

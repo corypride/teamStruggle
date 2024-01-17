@@ -8,6 +8,7 @@ axios.defaults.withCredentials = true;
 function Search({user}) {
     const [searchTerm, setSearchTerm] = useState("");
     let [watchlists, setWatchlists] = useState([]); 
+    let [reviews, setReviews] = useState([]); 
     let [results, setResults] = useState([]);
     let movies;
     

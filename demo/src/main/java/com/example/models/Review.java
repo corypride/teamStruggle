@@ -1,7 +1,10 @@
 package com.example.models;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "review")
@@ -18,10 +21,15 @@ public class Review {
     @Column(columnDefinition="TEXT")
     private String content;
 
-    @Column(name="createdDate", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date createdDate;
+    @ManyToMany
+    private List<Movie> moviesWithReviews = new ArrayList<>();
 
     public Review() {
+    }
+    public Review(List<Movie> moviesWithReviews, User user, String content) {
+        this.moviesWithReviews = moviesWithReviews;
+        this.user = user;
+        this.content = content;
     }
 
     public Integer getId() {
@@ -40,6 +48,14 @@ public class Review {
         this.user = user;
     }
 
+    public List<Movie> getMoviesWithReviews() {
+        return moviesWithReviews;
+    }
+
+    public void setMoviesWithReviews(List<Movie> moviesWithReviews) {
+        this.moviesWithReviews = moviesWithReviews;
+    }
+
     public String getContent() {
         return content;
     }
@@ -48,11 +64,4 @@ public class Review {
         this.content = content;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 }

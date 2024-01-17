@@ -16,6 +16,9 @@ public class Movie {
     @ManyToMany(mappedBy = "moviesInList")
     private final List<Watchlist> watchlists = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "moviesWithReviews")
+    private final List<Watchlist> reviews = new ArrayList<>();
+
     private Boolean adult;
     private String backdrop_path;
     private List<Integer> genre_ids;
