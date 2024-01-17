@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react'
 import Icon from "react-crud-icons";
 import "../Styles/react-crud-icons.css";
 import axios from 'axios';
+import { Button } from '@mui/material';
 
 
 export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
 
     let [recResults, setRecResults] = useState([]);
     const [recRevealed, setRecRevealed] = useState(false);
+    const [currentWatchlist, setCurrentWatchlist] = useState(watchlist);
 
+    useEffect(() => {
+      setCurrentWatchlist(watchlist);
+    }, [watchlist]);
+  
     const DeleteButton = (movie) => (
         <Icon
             name="delete"
@@ -32,7 +38,70 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
         }
     };
 
-    const fetchRandomRecommendation = async (movie) => {
+    const handleAddClick = async (aMovie, watchlist) => {
+        // Save movie to database
+        const movieResponse = await axios.post(`http://localhost:8080/movie`, aMovie,
+            {
+                withCredentials: true
+            }); // Need to change headers somehow?
+        const watchlistResponse = await axios.put(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
+
+        //update the watchlist
+        handleWatchlistUpdate();
+        //close recommendation section
+        setRecRevealed(false);
+    }
+
+    const handleRemoveClick = async (aMovie, watchlist) => {
+        const watchlistResponse = await axios.delete(`http://localhost:8080/watchlist/${watchlist.id}/${aMovie.id}`);
+
+        //update the watchlist
+        handleWatchlistUpdate();
+        //close recommendation section
+        setRecRevealed(false);
+    }
+
+    const handleButtons = ( randomRec, watchlist) => {
+
+        console.log(watchlist)
+        let inList = false;
+
+        // Figure out if this movie is already in the list
+        for (const currentMovie of watchlist.moviesInList) {
+            if (currentMovie.id === randomRec.id) {
+                inList = true;
+                break;
+            }
+        }
+
+        if (inList) {
+            return (
+                <li>
+                    <Button
+                        style={{ backgroundColor: '#B22222' }}
+                        key={watchlist.id}
+                        onClick={() => handleRemoveClick(randomRec, watchlist)}
+                        variant='contained'>{`REMOVE FROM ${watchlist.name}`}
+                    </Button>
+                    <br></br>
+                </li>
+            )
+        } else {
+            return (
+                <li>
+                    <Button
+                        key={watchlist.id}
+                        onClick={() => handleAddClick(randomRec, watchlist)}
+                        variant='contained'>{`ADD TO ${watchlist.name}`}
+                    </Button>
+                    <br></br>
+                </li>
+            )
+        }
+    }
+    
+
+    const fetchRandomRecommendation = async (movie , watchlist) => {
         const response = await axios.get(`http://localhost:8080/recommendation/${movie.movie.id}`);
         if (response.data.length === 0) {
             setRecResults(<p>I recommend you Harry Potter!</p>)
@@ -44,7 +113,7 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
             randomRec = response.data[(Math.floor(Math.random() * response.data.length))];
             setRecResults(
                 <div>
-                                        <h3>{randomRec.title}</h3>
+                    <h3>{randomRec.title}</h3>
 
                     {randomRec.poster_path ? (
                         <img
@@ -54,13 +123,13 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
                     ) : (
                     /* this should return a placeholder image */ <div></div>
                     )}
-                    //TODO: Add to watchlist button here
+                    <div>
+                        {handleButtons(randomRec, watchlist)}
+                    </div>
                 </div>
             )
         }
     }
-
-
 
     const RecommendationButton = (movie) => (
         <Icon
@@ -68,14 +137,14 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
             tooltip="Find Similar Movies"
             theme="light"
             size="medium"
-            onClick={() => handleRecClick(movie)}
+            onClick={() => handleRecClick(movie, currentWatchlist)}
         />
     );
 
-    const handleRecClick = (movie) => {
+    const handleRecClick = (movie , watchlist) => {
         setRecRevealed((prevValue) => !prevValue)
         //TODO: Hit the recommendations API
-        fetchRandomRecommendation(movie);
+        fetchRandomRecommendation(movie , watchlist);
     };
 
     return (
