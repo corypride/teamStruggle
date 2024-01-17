@@ -4,6 +4,7 @@ import com.example.data.FriendRepository;
 import com.example.data.UserRepository;
 import com.example.models.Friend;
 import com.example.models.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -25,17 +26,38 @@ public class FriendController {
     private FriendRepository friendRepository;
 
     @PostMapping("/addfriend")
-    ResponseEntity<String> addFriend(@PathVariable String username) {
-        // Check if users exist
+    public ResponseEntity<String> addFriend(@RequestParam("userId") Integer userId, @RequestParam("friendId") Integer friendId) {
+        try {
+            // Check if users exist
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            User friend = userRepository.findById(friendId).orElseThrow(() -> new RuntimeException("Friend not found"));
 
-        Friend friend = new Friend();
+            // Check if they are not already friends
+            if (user.getFriends().contains(friend)) {
+                return ResponseEntity.badRequest().body("Users are already friends");
+            }
 
-        //
+            // Create friend relationships
+            Friend friendRelationUser = new Friend();
+            friendRelationUser.setUser(user);
+            Friend friendRelationFriend = new Friend();
+            friendRelationFriend.setUser(friend);
 
-        friendRepository.save(friend);
+            // Save friend relationships to the database
+            friendRepository.save(friendRelationUser);
+            friendRepository.save(friendRelationFriend);
 
-        return ResponseEntity.ok("Friend added successfully");
+            // Save updated users to the database
+            userRepository.save(user);
+            userRepository.save(friend);
+
+
+            return ResponseEntity.ok("Friend added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error adding friend: " + e.getMessage());
+        }
     }
+
 
     @GetMapping("/friendlist")
     public List<Friend> getAllFriends() {

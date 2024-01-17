@@ -14,11 +14,16 @@ public class Friend {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "first_user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(mappedBy = "friends")
+    @ManyToMany(mappedBy = "friends", cascade = CascadeType.ALL)
     private final List<User> users = new ArrayList<>();
+
+
+    public List<User> getUsers() {
+        return users;
+    }
 
     public Friend() {
     }

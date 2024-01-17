@@ -9,13 +9,4 @@ import java.util.List;
 @Repository
 public interface FriendRepository extends CrudRepository<Friend,Integer> {
 
-    /*boolean existsByFirstUserAndSecondUser(User first,User second);*/
-
-    List<Friend> findByFirstUser(User user);
-   /* List<Friend> findBySecondUser(User user);*/
-
-  /* List<Friend> findAllByFirstUser(User first);
-    List<Friend> findAllBySecondUser(User second);
-    Friend findByFirstUserAndSecondUser(User first, User second);*/
-
 }

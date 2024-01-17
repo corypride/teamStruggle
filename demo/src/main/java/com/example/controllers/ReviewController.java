@@ -18,13 +18,17 @@ public class ReviewController {
     UserRepository userRepository;
 
     @PostMapping("addreview")
-    public ResponseEntity<String> addReview(@PathVariable Integer userId,
-                                            @PathVariable String content) {
+    /*public ResponseEntity<String> addReview(@PathVariable Integer userId,
+                                            @PathVariable String content)*/
+    ResponseEntity<String> addReview(@RequestParam("userId") User userId, @RequestBody Review review) {
       //add review stuff
-        Review newReview = new Review();
-        //idk what goes here
-        newReview.setContent(content);
-        reviewRepository.save(newReview);
+        // Check if the user exists
+        User user = userRepository.findById(userId.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        // Associate the review with the user
+        review.setUser(user);
+
+        // Save the review to the database
+        reviewRepository.save(review);
 
         return ResponseEntity.ok("Review added successfully!");
     }

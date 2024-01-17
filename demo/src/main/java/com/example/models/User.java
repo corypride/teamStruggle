@@ -23,10 +23,16 @@ public class User extends AbstractEntity {
     @JsonManagedReference // Add this annotation to break the loop
     private List<Watchlist> watchlists = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private final List<Friend> friends = new ArrayList<>();
 
-    public User() {}
+    public void addFriend(Friend friend) {
+        friends.add(friend);
+        friend.getUsers().add(this);
+    }
+
+    public User() {
+    }
 
 
     public User(String username, String password) {
@@ -65,5 +71,9 @@ public class User extends AbstractEntity {
 
     public void setWatchlists(List<Watchlist> watchlists) {
         this.watchlists = watchlists;
+    }
+
+    public List<Friend> getFriends() {
+        return friends;
     }
 }
