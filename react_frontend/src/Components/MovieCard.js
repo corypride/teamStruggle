@@ -32,6 +32,35 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
         }
     };
 
+    const fetchRandomRecommendation = async (movie) => {
+        const response = await axios.get(`http://localhost:8080/recommendation/${movie.movie.id}`);
+        if (response.data.length === 0) {
+            setRecResults(<p>I recommend you Harry Potter!</p>)
+        }
+        else {
+            let randomRec;
+            //Select a recommendation at random and display it
+            console.log(response.data)
+            randomRec = response.data[(Math.floor(Math.random() * response.data.length))];
+            setRecResults(
+                <div>
+                                        <h3>{randomRec.title}</h3>
+
+                    {randomRec.poster_path ? (
+                        <img
+                            src={`https://image.tmdb.org/t/p/w300${randomRec.poster_path}`}
+                            alt={`${movie.title} Art`}
+                        />
+                    ) : (
+                    /* this should return a placeholder image */ <div></div>
+                    )}
+                    //TODO: Add to watchlist button here
+                </div>
+            )
+        }
+    }
+
+
 
     const RecommendationButton = (movie) => (
         <Icon
@@ -45,14 +74,8 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
 
     const handleRecClick = (movie) => {
         setRecRevealed((prevValue) => !prevValue)
-        console.log(movie);
-        setRecResults(
         //TODO: Hit the recommendations API
-        //TODO: Select a recommendation at random and display it
-        //TODO: Add button to generate a new recommendation
-        //TODO: Add button to save recommendation to watchlist
-        <p>I recommend you Harry Potter!</p>
-        )
+        fetchRandomRecommendation(movie);
     };
 
     return (
