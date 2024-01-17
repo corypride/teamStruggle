@@ -3,6 +3,7 @@ import Icon from "react-crud-icons";
 import "../Styles/react-crud-icons.css";
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 
 export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
@@ -12,9 +13,9 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
     const [currentWatchlist, setCurrentWatchlist] = useState(watchlist);
 
     useEffect(() => {
-      setCurrentWatchlist(watchlist);
+        setCurrentWatchlist(watchlist);
     }, [watchlist]);
-  
+
     const DeleteButton = (movie) => (
         <Icon
             name="delete"
@@ -61,7 +62,7 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
         setRecRevealed(false);
     }
 
-    const handleButtons = ( randomRec, watchlist) => {
+    const handleButtons = (randomRec, watchlist) => {
 
         console.log(watchlist)
         let inList = false;
@@ -99,9 +100,9 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
             )
         }
     }
-    
 
-    const fetchRandomRecommendation = async (movie , watchlist) => {
+
+    const fetchRandomRecommendation = async (movie, watchlist) => {
         const response = await axios.get(`http://localhost:8080/recommendation/${movie.movie.id}`);
         if (response.data.length === 0) {
             setRecResults(<p>I recommend you Harry Potter!</p>)
@@ -141,29 +142,32 @@ export const MovieCard = ({ movie, watchlist, handleWatchlistUpdate }) => {
         />
     );
 
-    const handleRecClick = (movie , watchlist) => {
+    const handleRecClick = (movie, watchlist) => {
         setRecRevealed((prevValue) => !prevValue)
         //TODO: Hit the recommendations API
-        fetchRandomRecommendation(movie , watchlist);
+        fetchRandomRecommendation(movie, watchlist);
     };
 
     return (
         <div>
             <div>
                 {movie.poster_path ? (
-                    <img
-                        src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                        alt={`${movie.title} Art`}
-                    />
+                    <Link to='/movie' state={movie}>
+                        <img
+                            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                            alt={`${movie.title} Art`}
+                        />
+                    </Link>
                 ) : (
                     /* this should return a placeholder image */ <div></div>
                 )}
             </div>
             <div>
-                <h4>{movie.title}
-                    <DeleteButton movie={movie} watchlist={watchlist} />
-                    <RecommendationButton movie={movie} />
-                </h4>
+                <span>
+                    <h4>{movie.title}</h4>
+                </span>
+                <DeleteButton movie={movie} watchlist={watchlist} />
+                <RecommendationButton movie={movie} />
                 <div>{recRevealed && (recResults)}</div>
             </div>
         </div>
