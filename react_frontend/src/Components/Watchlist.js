@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState}  from 'react';
 import { MovieCard } from "./MovieCard";
 import { Grid } from '@mui/material';
 
