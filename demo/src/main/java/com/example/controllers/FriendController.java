@@ -36,6 +36,10 @@ public class FriendController {
         User newFriendUserObject = userRepository.findById(friendId)
                 .orElseThrow(() -> new ResourceNotFoundException("No user with given id: " + friendId));
 
+        //Check if already a friend
+        //TODO: check the friendRepository to see if a friend object associated with this user and friendId exists
+
+        //If no friend connection already exists,
         //Create a new friend object
         Friend newFriend = new Friend(user, friendId);
 
@@ -50,23 +54,17 @@ public class FriendController {
     }
 
     //TODO: Refactor these controller mappings
-    @RequestMapping("listfriends")
-    public String list(Model model) {
+    @GetMapping("friends/{userId}")
+    public List<Friend> getFriendList(@PathVariable Integer userId) {
 
-        model.addAttribute("friends", friendRepository.findAll());
+        //Find the user by userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("No user with given id: " + userId));
 
-        return "list";
+        //return friends list
+        return user.getFriends();
     }
-    /*public List<User> getFriends(){
-        User currentUser = userRepository.findByUsername();
-        List<Friend> friends = friendRepository.findByFirstUser(currentUser);
-        List<User> friendUsers = new ArrayList<User>();
 
-        for (Friend friend : friends) {
-            friendUsers.add(userRepository.findByUsername(friend.getSecondUser().getId()));
-        }
-        return friendUsers;
-
-    }*/
+    //TODO: Create a DELETE Mapping to remove friend
 
 }
