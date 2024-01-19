@@ -23,8 +23,14 @@ public class User extends AbstractEntity {
     @JsonManagedReference // Add this annotation to break the loop
     private List<Watchlist> watchlists = new ArrayList<>();
 
-    public User() {}
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference // Add this annotation to break the loop
+    private List<Friend> friends = new ArrayList<>();
 
+    public void addFriend(Friend friend) { friends.add(friend); }
+    public void removeFriend(Friend friend) { friends.remove(friend); }
+
+    public User() {}
 
     public User(String username, String password) {
         this.username = username;
@@ -40,7 +46,6 @@ public class User extends AbstractEntity {
 
     // Instance method to use the bcrypt multi-step matcher (.equals is not enough)
     public boolean isMatchingPassword(String password) {
-
         return encoder.matches(password, pwHash);
     }
 
@@ -62,5 +67,13 @@ public class User extends AbstractEntity {
 
     public void setWatchlists(List<Watchlist> watchlists) {
         this.watchlists = watchlists;
+    }
+
+    public List<Friend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
     }
 }
