@@ -2,15 +2,13 @@ package com.example.controllers;
 
 import com.example.data.FriendRepository;
 import com.example.data.UserRepository;
+import com.example.exceptions.ResourceNotFoundException;
 import com.example.models.Friend;
 import com.example.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,24 +31,25 @@ public class FriendController {
     }
 
     @PostMapping("/addfriend")
-    ResponseEntity<String> addFriend(@RequestParam("friendId") String friendId) {
-        // Check if users exist
+    ResponseEntity<String> addFriend(@RequestBody User user, @RequestParam("friendId") Integer friendId) {
+        // Check if new friend user exist
+        User newFriendUserObject = userRepository.findById(friendId)
+                .orElseThrow(() -> new ResourceNotFoundException("No user with given id: " + friendId));
 
-        User firstUser = userRepository.findByUsername(friendId).orElseThrow(() -> new RuntimeException("Sender not found"));
-        User secondUser = userRepository.findByUsername(friendId).orElseThrow(() -> new RuntimeException("Receiver not found"));
+        //Create a new friend object
+        Friend newFriend = new Friend(user, friendId);
 
+        //add friend to User's friend list
+        user.addFriend(newFriend);
 
-        Friend friend = new Friend();
-
-        if( !(friendRepository.existsByFirstUserAndSecondUser(firstUser,secondUser)) ){
-        friend.setFirstUser(firstUser);
-        friend.setSecondUser(secondUser);
-
-        friendRepository.save(friend); }
+        //save new friend object and update user
+        friendRepository.save(newFriend);
+        userRepository.save(user);
 
         return ResponseEntity.ok("Friend added successfully");
     }
 
+    //TODO: Refactor these controller mappings
     @RequestMapping("listfriends")
     public String list(Model model) {
 
