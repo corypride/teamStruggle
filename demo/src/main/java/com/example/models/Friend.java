@@ -1,60 +1,50 @@
 package com.example.models;
 
 import jakarta.persistence.*;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "friends")
-public class Friend {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Friend extends AbstractEntity{
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "first_user_id", referencedColumnName = "id")
-    private User firstUser;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "second_user_id", referencedColumnName = "id")
-    private User secondUser;
+    private Integer friendId;
 
     public Friend() {
     }
 
-    public Integer getId() {
-        return id;
+    public Friend(User user, Integer friendId) {
+        this.createdDate = java.time.LocalDateTime.now();
+        this.user = user;
+        this.friendId = friendId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public User getFirstUser() {
-        return firstUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setFirstUser(User firstUser) {
-        this.firstUser = firstUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public User getSecondUser() {
-        return secondUser;
+    public Integer getFriendId() {
+        return friendId;
     }
 
-    public void setSecondUser(User secondUser) {
-        this.secondUser = secondUser;
+    public void setFriendId(Integer friendId) {
+        this.friendId = friendId;
     }
 }

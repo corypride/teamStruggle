@@ -10,6 +10,8 @@ export const Watchlist = ({ watchlist , handleWatchlistUpdate}) => {
         <h3>{watchlist.name}</h3>
         <div>
           <Grid container spacing={6}>
+          {watchlist.moviesInList.length === 0 && <p>No movies in the watchlist</p>}
+
             {watchlist.moviesInList.map((movie) => (
               <Grid item xs={4}>
                 <MovieCard key={movie.id} movie={movie} watchlist={watchlist} handleWatchlistUpdate={handleWatchlistUpdate} />
